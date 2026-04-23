@@ -56,7 +56,7 @@ class SotcWorld(World):
     Sotc is a game about saving the princess that was, in fact, in another castle.
     """
 
-    game: str = "Vagrant Story"
+    game: str = "Shadow of the Colossus"
     explicit_indirect_conditions = False
     options_dataclass = SotcOption
     options: SotcOption
@@ -206,7 +206,7 @@ class SotcWorld(World):
     def fill_slot_data(self) -> Dict[str, object]:
         slot_data: Dict[str, object] = {}
 
-        name_to_vagrant_story_code = {item.name: item.sotc_code for item in item_dictionary(self.options).values()}
+        name_to_sotc_code = {item.name: item.sotc_code for item in item_dictionary(self.options).values()}
         # Create the mandatory lists to generate the player's output file
         items_id = []
         items_address = []
@@ -218,7 +218,7 @@ class SotcWorld(World):
                 if location.item.player == self.player:
                     # we are the receiver of the item
                     items_id.append(location.item.code)
-                    items_address.append(name_to_vagrant_story_code[location.item.name])
+                    items_address.append(name_to_sotc_code[location.item.name])
 
             if location.player == self.player:
                 # we are the sender of the location check
@@ -226,7 +226,7 @@ class SotcWorld(World):
                 locations_id.append(location.address)
                 if location.item is not None:
                     if location.item.player == self.player:
-                        locations_target.append(name_to_vagrant_story_code[location.item.name])
+                        locations_target.append(name_to_sotc_code[location.item.name])
                     else:
                         locations_target.append(0)
 

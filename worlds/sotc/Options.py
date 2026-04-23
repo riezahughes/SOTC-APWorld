@@ -33,7 +33,7 @@ class SoulShardQuantity(Range):
     Soul Shards Available in a Soul Shard Game. You must have Soul Shard Search as your Goal
     """
 
-    display_name = "Blood Sin Quantity"
+    display_name = "Soul Shard Quantity"
     range_start = 1
     range_end = 50
     default = 8

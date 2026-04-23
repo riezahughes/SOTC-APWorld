@@ -9,7 +9,7 @@ class SotcItemCategory(IntEnum):
     SKIP = 1
     HP_UP = 2
     STAMINA_UP = 3
-    BOSS_TOME = 4
+    BOSS_SIGIL = 4
     SOUL_SHARD = 5
 
 
@@ -53,10 +53,44 @@ class SotcItem(Item):
 
 key_item_names = {}
 
+# 1 Minotaur A — Sigil of the First Awakening
+# 2 Mammoth — Sigil of Burdened Earth
+# 3 Knight — Sigil of the Fallen Oath
+# 4 Kirin — Sigil of Veiled Fear
+# 5 Bird — Sigil of the Skybound Silence
+# 6 Minotaur B — Sigil of the Hollow Shrine
+# 7 Eel — Sigil of the Sunken Pulse
+# 8 Yamori B — Sigil of the Watching Walls
+# 9 Kame — Sigil of the Sealed Core
+# 10 Narga — Sigil of the Devouring Wind
+# 11 Leo — Sigil of the Broken Courage
+# 12 Poseidon — Sigil of the Drowned Throne
+# 13 Snake — Sigil of Endless Horizon
+# 14 Cerberus — Sigil of Ruined Pride
+# 15 Minotaur C — Sigil of the Bound Colossus
+# 16 Evis — Sigil of the Final Blasphemy
 
 items: List[SotcItemData] = [
+    SotcItemData("Sliver of Hope (HP)", SotcItemCategory.FILLER, False),
     SotcItemData("Soul Shard", SotcItemCategory.SOUL_SHARD, True),  # needs ripped out and logic put somewhere else, but for now it's here as an item.
     SotcItemData("Progressive Stamina Capacity", SotcItemCategory.STAMINA_UP, True),
+    SotcItemData("Progressive Health Capacity", SotcItemCategory.HP_UP, True),
+    SotcItemData("Sigil of the First Awakening", SotcItemCategory.BOSS_SIGIL, True),
+    SotcItemData("Sigil of Burdened Earth", SotcItemCategory.BOSS_SIGIL, True),
+    SotcItemData("Sigil of the Fallen Oath", SotcItemCategory.BOSS_SIGIL, True),
+    SotcItemData("Sigil of Veiled Fear", SotcItemCategory.BOSS_SIGIL, True),
+    SotcItemData("Sigil of the Skybound Silence", SotcItemCategory.BOSS_SIGIL, True),
+    SotcItemData("Sigil of the Hollow Shrine", SotcItemCategory.BOSS_SIGIL, True),
+    SotcItemData("Sigil of the Sunken Pulse", SotcItemCategory.BOSS_SIGIL, True),
+    SotcItemData("Sigil of the Watching Walls", SotcItemCategory.BOSS_SIGIL, True),
+    SotcItemData("Sigil of the Sealed Core", SotcItemCategory.BOSS_SIGIL, True),
+    SotcItemData("Sigil of the Devouring Wind", SotcItemCategory.BOSS_SIGIL, True),
+    SotcItemData("Sigil of the Broken Courage", SotcItemCategory.BOSS_SIGIL, True),
+    SotcItemData("Sigil of the Drowned Throne", SotcItemCategory.BOSS_SIGIL, True),
+    SotcItemData("Sigil of Endless Horizon", SotcItemCategory.BOSS_SIGIL, True),
+    SotcItemData("Sigil of Ruined Pride", SotcItemCategory.BOSS_SIGIL, True),
+    SotcItemData("Sigil of the Bound Colossus", SotcItemCategory.BOSS_SIGIL, True),
+    SotcItemData("Sigil of the Final Blasphemy", SotcItemCategory.BOSS_SIGIL, True),
 ]
 
 # Convert raw list of tuples into MedievilItemData NamedTuple instances
@@ -99,7 +133,7 @@ def BuildItemPool(count: int, self) -> List[str]:
     progression_items = [
         item.name
         for item in _all_items
-        if item.category in [SotcItemCategory.BOSS_TOME, SotcItemCategory.STAMINA_UP]
+        if item.category in [SotcItemCategory.BOSS_SIGIL, SotcItemCategory.STAMINA_UP, SotcItemCategory.HP_UP]
         for _ in range(item.quantity or 1)
     ]
 

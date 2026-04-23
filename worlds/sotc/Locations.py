@@ -46,7 +46,52 @@ class SotcLocation(Location):
     def get_name_to_id() -> dict:
         base_id = 99110000
         region_offset = 1000
-        table_order = [""]
+        table_order = [
+            "Traversal",
+            "Grid C1",
+            "Grid D1",
+            "Grid E1",
+            "Grid F1",
+            "Grid G1",
+            "Grid C2",
+            "Grid D2",
+            "Grid E2",
+            "Grid F2",
+            "Grid G2",
+            "Grid B3",
+            "Grid C3",
+            "Grid D3",
+            "Grid E3",
+            "Grid F3",
+            "Grid G3",
+            "Grid B4",
+            "Grid C4",
+            "Grid D4",
+            "Grid E4",
+            "Grid F4",
+            "Grid G4",
+            "Grid H4",
+            "Grid B5",
+            "Grid C5",
+            "Grid D5",
+            "Grid E5",
+            "Grid F5",
+            "Grid G5",
+            "Grid C6",
+            "Grid D6",
+            "Grid E6",
+            "Grid F6",
+            "Grid G6",
+            "Grid H6",
+            "Grid D7",
+            "Grid E7",
+            "Grid F7",
+            "Grid G7",
+            "Grid H7",
+            "Grid E8",
+            "Grid F8",
+            "Grid G8",
+        ]
 
         output = {}
         for i, region_name in enumerate(table_order):
@@ -74,50 +119,140 @@ location_tables = {
     "Traversal": [
         SotcLocationData("Riding Distance: 1000", "Sliver of Hope (HP)", SotcLocationCategory.RIDE_DISTANCE),
     ],
-    "C1": [],
-    "D1": [],
-    "E1": [],
-    "F1": [],
-    "G1": [],
-    "C2": [],
-    "D2": [],
-    "E2": [],
-    "F2": [],
-    "G2": [],
-    "B3": [],
-    "C3": [],
-    "D3": [],
-    "E3": [],
-    "F3": [],
-    "G3": [],
-    "B4": [],
-    "C4": [],
-    "D4": [],
-    "E4": [],
-    "F4": [],
-    "G4": [],
-    "H4": [],
-    "B5": [],
-    "C5": [],
-    "D5": [],
-    "E5": [],
-    "F5": [],
-    "G5": [],
-    "C6": [],
-    "D6": [],
-    "E6": [],
-    "F6": [],
-    "G6": [],
-    "H6": [],
-    "D7": [],
-    "E7": [],
-    "F7": [],
-    "G7": [],
-    "H7": [],
-    "E8": [],
-    "F8": [],
-    "G8": [],
+    "Grid C1": [
+        SotcLocationData("Map Grid C1", "Sliver of Hope (HP)", SotcLocationCategory.GRID_LOCATION),
+    ],
+    "Grid D1": [
+        SotcLocationData("Map Grid D1", "Sliver of Hope (HP)", SotcLocationCategory.GRID_LOCATION),
+    ],
+    "Grid E1": [
+        SotcLocationData("Map Grid E1", "Sliver of Hope (HP)", SotcLocationCategory.GRID_LOCATION),
+    ],
+    "Grid F1": [
+        SotcLocationData("Map Grid F1", "Sliver of Hope (HP)", SotcLocationCategory.GRID_LOCATION),
+    ],
+    "Grid G1": [
+        SotcLocationData("Map Grid G1", "Sliver of Hope (HP)", SotcLocationCategory.GRID_LOCATION),
+    ],
+    "Grid C2": [
+        SotcLocationData("Map Grid C2", "Sliver of Hope (HP)", SotcLocationCategory.GRID_LOCATION),
+    ],
+    "Grid D2": [
+        SotcLocationData("Map Grid D2", "Sliver of Hope (HP)", SotcLocationCategory.GRID_LOCATION),
+    ],
+    "Grid E2": [
+        SotcLocationData("Map Grid E2", "Sliver of Hope (HP)", SotcLocationCategory.GRID_LOCATION),
+    ],
+    "Grid F2": [
+        SotcLocationData("Map Grid F2", "Sliver of Hope (HP)", SotcLocationCategory.GRID_LOCATION),
+    ],
+    "Grid G2": [
+        SotcLocationData("Map Grid G2", "Sliver of Hope (HP)", SotcLocationCategory.GRID_LOCATION),
+    ],
+    "Grid B3": [
+        SotcLocationData("Map Grid B3", "Sliver of Hope (HP)", SotcLocationCategory.GRID_LOCATION),
+    ],
+    "Grid C3": [
+        SotcLocationData("Map Grid C3", "Sliver of Hope (HP)", SotcLocationCategory.GRID_LOCATION),
+    ],
+    "Grid D3": [
+        SotcLocationData("Map Grid D3", "Sliver of Hope (HP)", SotcLocationCategory.GRID_LOCATION),
+    ],
+    "Grid E3": [
+        SotcLocationData("Map Grid E3", "Sliver of Hope (HP)", SotcLocationCategory.GRID_LOCATION),
+    ],
+    "Grid F3": [
+        SotcLocationData("Map Grid F3", "Sliver of Hope (HP)", SotcLocationCategory.GRID_LOCATION),
+    ],
+    "Grid G3": [
+        SotcLocationData("Map Grid G3", "Sliver of Hope (HP)", SotcLocationCategory.GRID_LOCATION),
+    ],
+    "Grid B4": [
+        SotcLocationData("Map Grid B4", "Sliver of Hope (HP)", SotcLocationCategory.GRID_LOCATION),
+    ],
+    "Grid C4": [
+        SotcLocationData("Map Grid C4", "Sliver of Hope (HP)", SotcLocationCategory.GRID_LOCATION),
+    ],
+    "Grid D4": [
+        SotcLocationData("Map Grid D4", "Sliver of Hope (HP)", SotcLocationCategory.GRID_LOCATION),
+    ],
+    "Grid E4": [
+        SotcLocationData("Map Grid E4", "Sliver of Hope (HP)", SotcLocationCategory.GRID_LOCATION),
+    ],
+    "Grid F4": [
+        SotcLocationData("Map Grid F4", "Sliver of Hope (HP)", SotcLocationCategory.GRID_LOCATION),
+    ],
+    "Grid G4": [
+        SotcLocationData("Map Grid G4", "Sliver of Hope (HP)", SotcLocationCategory.GRID_LOCATION),
+    ],
+    "Grid H4": [
+        SotcLocationData("Map Grid H4", "Sliver of Hope (HP)", SotcLocationCategory.GRID_LOCATION),
+    ],
+    "Grid B5": [
+        SotcLocationData("Map Grid B5", "Sliver of Hope (HP)", SotcLocationCategory.GRID_LOCATION),
+    ],
+    "Grid C5": [
+        SotcLocationData("Map Grid C5", "Sliver of Hope (HP)", SotcLocationCategory.GRID_LOCATION),
+    ],
+    "Grid D5": [
+        SotcLocationData("Map Grid D5", "Sliver of Hope (HP)", SotcLocationCategory.GRID_LOCATION),
+    ],
+    "Grid E5": [
+        SotcLocationData("Map Grid E5", "Sliver of Hope (HP)", SotcLocationCategory.GRID_LOCATION),
+    ],
+    "Grid F5": [
+        SotcLocationData("Map Grid F5", "Sliver of Hope (HP)", SotcLocationCategory.GRID_LOCATION),
+    ],
+    "Grid G5": [
+        SotcLocationData("Map Grid G5", "Sliver of Hope (HP)", SotcLocationCategory.GRID_LOCATION),
+    ],
+    "Grid C6": [
+        SotcLocationData("Map Grid C6", "Sliver of Hope (HP)", SotcLocationCategory.GRID_LOCATION),
+    ],
+    "Grid D6": [
+        SotcLocationData("Map Grid D6", "Sliver of Hope (HP)", SotcLocationCategory.GRID_LOCATION),
+    ],
+    "Grid E6": [
+        SotcLocationData("Map Grid E6", "Sliver of Hope (HP)", SotcLocationCategory.GRID_LOCATION),
+    ],
+    "Grid F6": [
+        SotcLocationData("Map Grid F6", "Sliver of Hope (HP)", SotcLocationCategory.GRID_LOCATION),
+    ],
+    "Grid G6": [
+        SotcLocationData("Map Grid G6", "Sliver of Hope (HP)", SotcLocationCategory.GRID_LOCATION),
+    ],
+    "Grid H6": [
+        SotcLocationData("Map Grid H6", "Sliver of Hope (HP)", SotcLocationCategory.GRID_LOCATION),
+    ],
+    "Grid D7": [
+        SotcLocationData("Map Grid D7", "Sliver of Hope (HP)", SotcLocationCategory.GRID_LOCATION),
+    ],
+    "Grid E7": [
+        SotcLocationData("Map Grid E7", "Sliver of Hope (HP)", SotcLocationCategory.GRID_LOCATION),
+    ],
+    "Grid F7": [
+        SotcLocationData("Map Grid F7", "Sliver of Hope (HP)", SotcLocationCategory.GRID_LOCATION),
+    ],
+    "Grid G7": [
+        SotcLocationData("Map Grid G7", "Sliver of Hope (HP)", SotcLocationCategory.GRID_LOCATION),
+    ],
+    "Grid H7": [
+        SotcLocationData("Map Grid H7", "Sliver of Hope (HP)", SotcLocationCategory.GRID_LOCATION),
+    ],
+    "Grid E8": [
+        SotcLocationData("Map Grid E8", "Sliver of Hope (HP)", SotcLocationCategory.GRID_LOCATION),
+    ],
+    "Grid F8": [
+        SotcLocationData("Map Grid F8", "Sliver of Hope (HP)", SotcLocationCategory.GRID_LOCATION),
+    ],
+    "Grid G8": [
+        SotcLocationData("Map Grid G8", "Sliver of Hope (HP)", SotcLocationCategory.GRID_LOCATION),
+    ],
 }
+
+# Take the max distance you want and divide it by the break points to get the checks, then on the last one, if it doesn't round correctly
+# just add the final check as whatever the distance would end at. Eg, 1000 distance with 300 break points would give you checks at 300, 600, 900,
+# and then the final check would be at 1000 instead of 1200.
 
 location_dictionary: Dict[str, SotcLocationData] = {}  #
 for location_table in location_tables.values():

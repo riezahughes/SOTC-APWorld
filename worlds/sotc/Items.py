@@ -41,14 +41,7 @@ class SotcItem(Item):
     def get_name_to_id() -> dict:
         base_id = 9201000
 
-        result = {item_data.name: (base_id + item_data.sotc_code) for item_data in _all_items if item_data.sotc_code is not None}
-
-        # # Provides codes for optional items. This is just an example if needed
-        # result["Teleport"] = 9910000
-        # result["Rood Inverse"] = 9920000
-        # result["Blood Sin Piece"] = 9930000
-
-        return result
+        return {item_data.name: base_id + i + 1 for i, item_data in enumerate(_all_items)}
 
 
 key_item_names = {}
@@ -71,7 +64,7 @@ key_item_names = {}
 # 16 Evis — Sigil of the Final Blasphemy
 
 items: List[SotcItemData] = [
-    SotcItemData("Sliver of Hope (HP)", SotcItemCategory.FILLER, False),
+    SotcItemData("Sliver of Hope HP", SotcItemCategory.FILLER, True),
     SotcItemData("Soul Shard", SotcItemCategory.SOUL_SHARD, True),  # needs ripped out and logic put somewhere else, but for now it's here as an item.
     SotcItemData("Progressive Stamina Capacity", SotcItemCategory.STAMINA_UP, True),
     SotcItemData("Progressive Health Capacity", SotcItemCategory.HP_UP, True),
@@ -156,7 +149,7 @@ def BuildItemPool(count: int, self) -> List[str]:
             item_pool_names.append(self.multiworld.random.choice(filler_candidates))
         else:
             # Extreme fallback if even recovery items are missing
-            item_pool_names.append("Cure Bulb")
+            item_pool_names.append("Sliver of Hope HP")
             if len(item_pool_names) >= count:
                 break
 

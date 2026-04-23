@@ -8,7 +8,7 @@ from worlds.AutoWorld import World, WebWorld
 from worlds.generic.Rules import set_rule, add_rule
 
 from .Items import SotcItem, SotcItemCategory, item_dictionary, key_item_names, item_descriptions, BuildItemPool
-from .Locations import SotcLocation, SotcLocationCategory, SotcLocationData, location_tables, location_dictionary
+from .Locations import SotcLocation, SotcLocationCategory, SotcLocationData, location_tables, location_dictionary, create_traversal_locations
 from .Options import (
     SotcOption,
     SoulShardQuantity,
@@ -93,23 +93,129 @@ class SotcWorld(World):
         # Create Regions
         regions: Dict[str, Region] = {}
 
+        list_of_regions = [
+            "Grid F0",
+            "Grid C1",
+            "Grid D1",
+            "Grid E1",
+            "Grid F1",
+            "Grid G1",
+            "Grid C2",
+            "Grid D2",
+            "Grid E2",
+            "Grid F2",
+            "Grid G2",
+            "Grid B3",
+            "Grid C3",
+            "Grid D3",
+            "Grid E3",
+            "Grid F3",
+            "Grid G3",
+            "Grid B4",
+            "Grid C4",
+            "Grid D4",
+            "Grid E4",
+            "Grid F4",
+            "Grid G4",
+            "Grid H4",
+            "Grid B5",
+            "Grid C5",
+            "Grid D5",
+            "Grid E5",
+            "Grid F5",
+            "Grid G5",
+            "Grid C6",
+            "Grid D6",
+            "Grid E6",
+            "Grid F6",
+            "Grid G6",
+            "Grid H6",
+            "Grid D7",
+            "Grid E7",
+            "Grid F7",
+            "Grid G7",
+            "Grid H7",
+            "Grid E8",
+            "Grid F8",
+            "Grid G8",
+        ]
+
+        regions["Traversal"] = self.create_region("Traversal", create_traversal_locations(self.options))
+
         regions["Menu"] = self.create_region("Menu", [])
-        regions["Prologue"] = self.create_region("Prologue", location_tables["Prologue"])
-        regions["Ashley"] = self.create_region("Ashley", location_tables["Ashley"])
-        regions["Credits"] = self.create_region("Credits", location_tables["Credits"])
+
+        regions.update({region_name: self.create_region(region_name, location_tables[region_name]) for region_name in list_of_regions})
 
         def create_connection(from_region: str, to_region: str):
             connection = Entrance(self.player, f"{from_region} -> {to_region}", regions[from_region])
             regions[from_region].exits.append(connection)
             connection.connect(regions[to_region])
 
-        def create_room_connections(from_region: str, to_region: str, connection_name: str):
-            connection = Entrance(self.player, connection_name, regions[from_region])
-            regions[from_region].exits.append(connection)
-            connection.connect(regions[to_region])
+        create_connection("Menu", "Traversal")
+        create_connection("Traversal", "Grid F4")  # Game Starting Position
 
-        create_connection("Menu", "Ashley")
-        create_connection("Ashley", "Menu")
+        create_connection("Grid C2", "Grid D2")
+        create_connection("Grid D2", "Grid C2")
+        create_connection("Grid D2", "Grid E2")
+        create_connection("Grid E2", "Grid D2")
+        create_connection("Grid E2", "Grid F2")
+        create_connection("Grid F2", "Grid E2")
+        create_connection("Grid F2", "Grid G2")
+        create_connection("Grid G2", "Grid F2")
+
+        create_connection("Grid C3", "Grid D3")
+        create_connection("Grid D3", "Grid C3")
+        create_connection("Grid D3", "Grid E3")
+        create_connection("Grid E3", "Grid D3")
+
+        create_connection("Grid E3", "Grid F3")
+        create_connection("Grid F3", "Grid E3")
+
+        create_connection("Grid F3", "Grid F4")  # vertical choke
+        create_connection("Grid F4", "Grid F3")
+
+        create_connection("Grid F3", "Grid G3")
+        create_connection("Grid G3", "Grid F3")
+
+        # West side
+        create_connection("Grid B4", "Grid C4")
+        create_connection("Grid C4", "Grid B4")
+
+        # East side
+        create_connection("Grid F4", "Grid G4")
+        create_connection("Grid G4", "Grid F4")
+        create_connection("Grid G4", "Grid H4")
+        create_connection("Grid H4", "Grid G4")
+
+        # West landmass
+        create_connection("Grid B5", "Grid C5")
+        create_connection("Grid C5", "Grid B5")
+
+        # Central south
+        create_connection("Grid E5", "Grid F5")
+        create_connection("Grid F5", "Grid E5")
+
+        create_connection("Grid C6", "Grid D6")
+        create_connection("Grid D6", "Grid C6")
+
+        create_connection("Grid D6", "Grid E6")
+        create_connection("Grid E6", "Grid D6")
+
+        create_connection("Grid E6", "Grid F6")
+        create_connection("Grid F6", "Grid E6")
+
+        create_connection("Grid F6", "Grid G6")
+        create_connection("Grid G6", "Grid F6")
+
+        create_connection("Grid E7", "Grid F7")
+        create_connection("Grid F7", "Grid E7")
+
+        create_connection("Grid F7", "Grid F8")
+        create_connection("Grid F8", "Grid F7")
+        create_connection("Grid G7", "Grid G8")
+        create_connection("Grid G8", "Grid G7")
+
+        # create_connection("Ashley", "Menu")
 
     # For each region, add the associated locations retrieved from the corresponding location_table
     def create_region(self, region_name, location_table) -> Region:
@@ -155,7 +261,6 @@ class SotcWorld(World):
 
         print(f"Created item pool size: {len(generated_items)}")
 
-        # Add the generated SotcItem objects to the multiworld's item pool
         self.multiworld.itempool.extend(generated_items)
 
     def create_item(self, name: str) -> Item:
@@ -172,7 +277,8 @@ class SotcWorld(World):
         if (
             item_data.progression
             or item_data.category == SotcItemCategory.STAMINA_UP
-            or item_data.category == SotcItemCategory.BOSS_TOME
+            or item_data.category == SotcItemCategory.HP_UP
+            or item_data.category == SotcItemCategory.BOSS_SIGIL
             or item_data.category == SotcItemCategory.SOUL_SHARD
         ):
             item_classification = ItemClassification.progression

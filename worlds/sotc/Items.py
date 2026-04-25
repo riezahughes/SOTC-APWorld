@@ -86,7 +86,7 @@ items: List[SotcItemData] = [
     SotcItemData("Sigil of Endless Horizon", SotcItemCategory.BOSS_SIGIL),
     SotcItemData("Sigil of Ruined Pride", SotcItemCategory.BOSS_SIGIL),
     SotcItemData("Sigil of the Bound Colossus", SotcItemCategory.BOSS_SIGIL),
-    SotcItemData("Sigil of the Final Blasphemy", SotcItemCategory.BOSS_SIGIL),
+    # SotcItemData("Sigil of the Final Blasphemy", SotcItemCategory.BOSS_SIGIL),
     SotcItemData(
         "Trap: Loose Reins",
         SotcItemCategory.TRAP,

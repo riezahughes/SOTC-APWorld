@@ -1,7 +1,7 @@
 from typing import Dict, Set, List
 
 from BaseClasses import MultiWorld, Region, Item, Entrance, Tutorial, ItemClassification, CollectionState
-from Options import Toggle
+from Options import Toggle, OptionError
 
 from worlds.AutoWorld import World, WebWorld
 from worlds.generic.Rules import set_rule, add_rule
@@ -12,6 +12,9 @@ from .Options import (
     SotcOption,
     GoalOptions,
     SoulShardQuantity,
+    LizardSanityToggle,
+    FruitSanityToggle,
+    ShrineSanityToggle,
     GridSanityToggle,
     ClimbSanityToggle,
     ClimbSanityRange,
@@ -404,26 +407,41 @@ class SotcWorld(World):
     def create_region(self, region_name, location_table) -> Region:
         new_region = Region(region_name, self.player, self.multiworld)
         for location in location_table:
-            if location.category in self.enabled_location_categories:
-                new_location = SotcLocation(
-                    self.player,
-                    location.name,
-                    location.category,
-                    location.default_item,
-                    self.location_name_to_id[location.name],
-                    new_region,
-                )
-            else:
-                event_item = self.create_item(location.default_item)
-                new_location = SotcLocation(self.player, location.name, location.category, location.default_item, None, new_region)
-                event_item.code = None
+            skip_regular_location = False
+            if self.options.agrosanity.value == AgroSanityToggle.option_false and "Riding Distance" in location.name:
+                continue
+            if self.options.climbsanity.value == ClimbSanityToggle.option_false and "Climbing Distance" in location.name:
+                continue
+            if self.options.gridsanity.value == GridSanityToggle.option_false and "Map Grid" in location.name:
+                continue
+            if self.options.lizardsanity.value == LizardSanityToggle.option_false and "Lizard" in location.name:
+                if self.options.goal == GoalOptions.HUNT_ALL_LIZARDS:
+                    skip_regular_location = True
+                else:
+                    continue
+            if self.options.fruitsanity.value == FruitSanityToggle.option_false and "Fruit" in location.name:
+                continue
+            if self.options.shrinesanity.value == ShrineSanityToggle.option_false and "Shrine" in location.name:
+                continue
+            if not skip_regular_location:
+                if location.category in self.enabled_location_categories:
+                    new_location = SotcLocation(
+                        self.player,
+                        location.name,
+                        location.category,
+                        location.default_item,
+                        self.location_name_to_id[location.name],
+                        new_region,
+                    )
+                else:
+                    event_item = self.create_item(location.default_item)
+                    new_location = SotcLocation(self.player, location.name, location.category, location.default_item, None, new_region)
+                    event_item.code = None
 
-                if isinstance(event_item, SotcItem):
-                    new_location.place_locked_item(event_item)
-            new_region.locations.append(new_location)
-
-            # Companion event for lizard goal tracking
-            if location.category == SotcLocationCategory.LIZARD:
+                    if isinstance(event_item, SotcItem):
+                        new_location.place_locked_item(event_item)
+                new_region.locations.append(new_location)
+            if location.category == SotcLocationCategory.LIZARD and self.options.goal == GoalOptions.HUNT_ALL_LIZARDS:
                 event_loc = SotcLocation(self.player, f"{location.name} - Tail", SotcLocationCategory.LIZARD, "Lizard Tail", None, new_region)
                 event_item = Item("Lizard Tail", ItemClassification.progression, None, self.player)
                 event_loc.place_locked_item(event_item)
@@ -439,6 +457,14 @@ class SotcWorld(World):
                 randomized_location_count += 1
 
         print(f"Requesting itempool size for randomized locations: {randomized_location_count}")
+
+        if (self.options.goal.value == GoalOptions.SOUL_SHARD_SEARCH
+                and self.options.soul_shard_quantity.value > randomized_location_count):
+            raise OptionError(
+                f"soul_shard_quantity ({self.options.soul_shard_quantity.value}) exceeds the total number of "
+                f"available locations ({randomized_location_count}). Reduce soul_shard_quantity or enable "
+                f"more sanity checks."
+            )
 
         # Call BuildItemPool to get a list of item NAMES (strings)
         item_names_to_add = BuildItemPool(randomized_location_count, self)
@@ -490,8 +516,8 @@ class SotcWorld(World):
             self.set_completion_rule(kill_all_colossi())
         elif self.options.goal.value == GoalOptions.SOUL_SHARD_SEARCH:
             self.set_completion_rule(collect_all_shards())
-        elif self.options.goal.value == GoalOptions.COLLECT_ALL_LIZARDS:
-            self.set_completion_rule(hunt_all_lizards())
+        elif self.options.goal.value == GoalOptions.HUNT_ALL_LIZARDS:
+            self.set_completion_rule(hunt_all_lizards(self.options.lizard_quantity.value))
 
         set_boss_progression(self)
 
@@ -536,6 +562,8 @@ class SotcWorld(World):
                 "colossi_quantity": self.options.colossi_quantity.value,
                 "soul_shard_quantity": self.options.soul_shard_quantity.value,
                 "lizard_quantity": self.options.lizard_quantity.value,
+                "fruitsanity": self.options.fruitsanity.value,
+                "lizardsanity": self.options.lizardsanity.value,
                 "gridsanity": self.options.gridsanity.value,
                 "climbsanity": self.options.climbsanity.value,
                 "climbsanity_range": self.options.climbsanity_range.value,

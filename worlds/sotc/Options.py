@@ -5,7 +5,7 @@ from Options import Toggle, DefaultOnToggle, Option, Range, Choice, ItemDict, De
 
 class GoalOptions:
     KILL_ALL_COLOSSI = 1
-    COLLECT_ALL_LIZARDS = 2
+    HUNT_ALL_LIZARDS = 2
     SOUL_SHARD_SEARCH = 3
 
 
@@ -18,35 +18,35 @@ class GuaranteedItemsOption(ItemDict):
 class GoalOption(Choice):
     """Lets the user choose the completion goal
     Kill all Collosi - Beat every fight in the game
-    Collect All Lizards - Get Every Stamina Drop from the lizards (May Require LizardSanity? Not sure yet.)
+    Hunt All Lizards - Get Every Stamina Drop from the lizards (May Require LizardSanity? Not sure yet.)
     Soul Shard Search - Add a unique item to the pool to find and collect from locations"""
 
     display_name = "Completion Goal"
     default = GoalOptions.KILL_ALL_COLOSSI
     option_kill_all_colossi = GoalOptions.KILL_ALL_COLOSSI
-    option_collect_all_lizards = GoalOptions.COLLECT_ALL_LIZARDS
+    option_collect_all_lizards = GoalOptions.HUNT_ALL_LIZARDS
     option_soul_shard_search = GoalOptions.SOUL_SHARD_SEARCH
 
 
-class CollosiQuantity(Range):
+class ColossiQuantity(Range):
     """
-    Number of Collosi in the Game. Bosses will be chosen at random based on how many you choose here
+    Number of Collosi you need to kill to open the goal. Bosses will be chosen at random based on how many you choose here
     """
 
     display_name = "Colossi in Game"
     range_start = 0
-    range_end = 16
-    default = 16
+    range_end = 15
+    default = 15
 
 
 class LizardQuantity(Range):
     """
-    If you've chosen Lizard hunt, set the number of lizards you want to kill in the game.
+    If you've chosen Lizard hunt or, set the number of lizards you want to kill in the game.
     """
 
-    display_name = "Lizard Quantity to Goal"
+    display_name = "Lizard Quantity in locations"
     range_start = 0
-    range_end = 77
+    range_end = 74
     default = 70
 
 
@@ -65,16 +65,16 @@ class FruitSanityToggle(Toggle):
     """Fruits count as checks"""
 
     display_name = "FruitSanity"
-    default = 0
+    default = 1
     option_true = 1
     option_false = 0
 
 
 class LizardSanityToggle(Toggle):
-    """Lizards count as checks"""
+    """Lizards count as checks - REQUIRED FOR 'HUNT ALL LIZARDS'"""
 
     display_name = "LizardSanity"
-    default = 0
+    default = 1
     option_true = 1
     option_false = 0
 
@@ -83,7 +83,7 @@ class ShrineSanityToggle(Toggle):
     """Include interaction with all shrines as checks"""
 
     display_name = "ShrineSanity"
-    default = 0
+    default = 1
     option_true = 1
     option_false = 0
 
@@ -92,7 +92,7 @@ class GridSanityToggle(Toggle):
     """Include all accessable grid tiles on the map as a checks on entry into them"""
 
     display_name = "GridSanity"
-    default = 0
+    default = 1
     option_true = 1
     option_false = 0
 
@@ -101,7 +101,7 @@ class ClimbSanityToggle(Toggle):
     """Provide Checks for Time Spent Climbing"""
 
     display_name = "ClimbSanity"
-    default = 0
+    default = 1
     option_true = 1
     option_false = 0
 
@@ -132,7 +132,7 @@ class AgroSanityToggle(Toggle):
     """Provide checks for time spent riding best girl"""
 
     display_name = "AgroSanity"
-    default = 0
+    default = 1
     option_true = 1
     option_false = 0
 
@@ -196,9 +196,12 @@ class DeathLinkToggle(Toggle):
 @dataclass
 class SotcOption(PerGameCommonOptions):
     goal: GoalOption
-    colossi_quantity: CollosiQuantity
+    colossi_quantity: ColossiQuantity
     soul_shard_quantity: SoulShardQuantity
-    lizard_quantity: CollosiQuantity
+    lizard_quantity: LizardQuantity
+    fruitsanity: FruitSanityToggle
+    lizardsanity: LizardSanityToggle
+    shrinesanity: ShrineSanityToggle
     gridsanity: GridSanityToggle
     climbsanity: ClimbSanityToggle
     climbsanity_range: ClimbSanityRange

@@ -12,6 +12,5 @@ def collect_all_shards():
     return HasAllCounts({"Soul Shard": FromOption(SoulShardQuantity)})
 
 
-def hunt_all_lizards():
-    lizard_count = sum(1 for region_locs in location_tables.values() for loc in region_locs if loc.category == SotcLocationCategory.LIZARD)
-    return Has("Lizard Tail", lizard_count)
+def hunt_all_lizards(lizard_max_count):
+    return Has("Lizard Tail", int(lizard_max_count))

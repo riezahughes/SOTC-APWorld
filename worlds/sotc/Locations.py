@@ -1,6 +1,6 @@
 from enum import IntEnum
 from typing import Optional, NamedTuple, Dict, List
-
+from Options import Toggle, OptionError
 from BaseClasses import Location, Region, Item
 from .Items import SotcItem
 
@@ -442,6 +442,11 @@ def create_traversal_locations(options) -> List[SotcLocationData]:
     locations: List[SotcLocationData] = []
 
     if options.climbsanity.value:
+        if int(options.climbsanity_break_points) > int(options.climbsanity_range):
+            raise OptionError(
+                f"climbsanity_break_points ({options.climbsanity_break_points.value}) exceeds the range of "
+                f"climbsanity_range ({options.climbsanity_range.value}). Please change the yaml so that the range is higher."
+            )
         climb_range = options.climbsanity_range.value
         climb_bp = options.climbsanity_break_points.value
         for i in range(1, climb_range // climb_bp + 1):
@@ -462,6 +467,11 @@ def create_traversal_locations(options) -> List[SotcLocationData]:
             )
 
     if options.agrosanity.value:
+        if int(options.agrosanity_break_points) > int(options.agrosanity_range):
+            raise OptionError(
+                f"agrosanity_break_points ({options.agrosanity_break_points.value}) exceeds the range of "
+                f"agrosanity_range ({options.agrosanity_range.value}). Please change the yaml so that the range is higher."
+            )
         ride_range = options.agrosanity_range.value
         ride_bp = options.agrosanity_break_points.value
         for i in range(1, ride_range // ride_bp + 1):

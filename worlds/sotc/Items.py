@@ -11,7 +11,8 @@ class SotcItemCategory(IntEnum):
     STAMINA_UP = 3
     BOSS_SIGIL = 4
     SOUL_SHARD = 5
-    TRAP = 6
+    LIZARD_TAIL = 6
+    TRAP = 7
 
 
 class SotcItemData(NamedTuple):
@@ -67,6 +68,7 @@ items: List[SotcItemData] = [
     SotcItemData("Sliver of Hope HP", SotcItemCategory.FILLER),
     SotcItemData("Sliver of Courage Stamina", SotcItemCategory.FILLER),
     SotcItemData("Soul Shard", SotcItemCategory.SOUL_SHARD),
+    SotcItemData("Lizard Tail", SotcItemCategory.LIZARD_TAIL),
     SotcItemData("Progressive Stamina Capacity", SotcItemCategory.STAMINA_UP),
     SotcItemData("Progressive Health Capacity", SotcItemCategory.HP_UP),
     SotcItemData("Sigil of the First Awakening", SotcItemCategory.BOSS_SIGIL),
@@ -124,8 +126,8 @@ def BuildItemPool(count: int, self) -> List[str]:
 
     # Pick a random subset of sigils based on colossi_count
     all_sigils = [item.name for item in _all_items if item.category == SotcItemCategory.BOSS_SIGIL]
-    colossi_count = self.options.colossi_count.value
-    chosen_sigils = self.multiworld.random.sample(all_sigils, min(colossi_count, len(all_sigils)))
+    colossi_quantity = self.options.colossi_quantity.value
+    chosen_sigils = self.multiworld.random.sample(all_sigils, min(colossi_quantity, len(all_sigils)))
     self.chosen_sigils = chosen_sigils
 
     # Add Soul Shards based on the soul_shard_quantity option

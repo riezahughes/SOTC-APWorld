@@ -28,7 +28,7 @@ class GoalOption(Choice):
     option_soul_shard_search = GoalOptions.SOUL_SHARD_SEARCH
 
 
-class CollosiCount(Range):
+class CollosiQuantity(Range):
     """
     Number of Collosi in the Game. Bosses will be chosen at random based on how many you choose here
     """
@@ -37,6 +37,17 @@ class CollosiCount(Range):
     range_start = 0
     range_end = 16
     default = 16
+
+
+class LizardQuantity(Range):
+    """
+    If you've chosen Lizard hunt, set the number of lizards you want to kill in the game.
+    """
+
+    display_name = "Lizard Quantity to Goal"
+    range_start = 0
+    range_end = 77
+    default = 70
 
 
 class SoulShardQuantity(Range):
@@ -185,8 +196,9 @@ class DeathLinkToggle(Toggle):
 @dataclass
 class SotcOption(PerGameCommonOptions):
     goal: GoalOption
+    colossi_quantity: CollosiQuantity
     soul_shard_quantity: SoulShardQuantity
-    colossi_count: CollosiCount
+    lizard_quantity: CollosiQuantity
     gridsanity: GridSanityToggle
     climbsanity: ClimbSanityToggle
     climbsanity_range: ClimbSanityRange

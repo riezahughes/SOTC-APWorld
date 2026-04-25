@@ -1,7 +1,7 @@
 from enum import IntEnum
 from typing import Optional, NamedTuple, Dict, List
 
-from BaseClasses import Location, Region
+from BaseClasses import Location, Region, Item
 from .Items import SotcItem
 
 
@@ -137,7 +137,7 @@ class SotcLocation(Location):
 
         # return {location_data.name: (base_id + location_data.m_code) for location_data in location_tables["MainWorld"]}
 
-    def place_locked_item(self, item: SotcItem):
+    def place_locked_item(self, item: Item):
         self.item = item
         self.locked = True
         item.location = self

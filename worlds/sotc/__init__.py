@@ -24,7 +24,7 @@ from .Options import (
 
 from .Rules import set_boss_progression
 
-from .VictoryConditions import kill_all_colossi, collect_all_shards, collect_all_lizards
+from .VictoryConditions import kill_all_colossi, collect_all_shards, hunt_all_lizards
 
 
 class SotcWeb(WebWorld):
@@ -422,6 +422,13 @@ class SotcWorld(World):
                     new_location.place_locked_item(event_item)
             new_region.locations.append(new_location)
 
+            # Companion event for lizard goal tracking
+            if location.category == SotcLocationCategory.LIZARD:
+                event_loc = SotcLocation(self.player, f"{location.name} - Tail", SotcLocationCategory.LIZARD, "Lizard Tail", None, new_region)
+                event_item = Item("Lizard Tail", ItemClassification.progression, None, self.player)
+                event_loc.place_locked_item(event_item)
+                new_region.locations.append(event_loc)
+
         self.multiworld.regions.append(new_region)
         return new_region
 
@@ -484,7 +491,7 @@ class SotcWorld(World):
         elif self.options.goal.value == GoalOptions.SOUL_SHARD_SEARCH:
             self.set_completion_rule(collect_all_shards())
         elif self.options.goal.value == GoalOptions.COLLECT_ALL_LIZARDS:
-            self.set_completion_rule(collect_all_lizards())
+            self.set_completion_rule(hunt_all_lizards())
 
         set_boss_progression(self)
 
@@ -513,8 +520,8 @@ class SotcWorld(World):
                     items_id.append(location.item.code)
                     items_address.append(name_to_sotc_code[location.item.name])
 
-            if location.player == self.player:
-                # we are the sender of the location check
+            if location.player == self.player and location.address is not None:
+                # we are the sender of the location check (skip events)
                 locations_address.append(item_dictionary(self.options)[location_dictionary[location.name].default_item].sotc_code)
                 locations_id.append(location.address)
                 if location.item is not None:
@@ -526,8 +533,9 @@ class SotcWorld(World):
         slot_data = {
             "options": {
                 "goal": self.options.goal.value,
+                "colossi_quantity": self.options.colossi_quantity.value,
                 "soul_shard_quantity": self.options.soul_shard_quantity.value,
-                "colossi_count": self.options.colossi_count.value,
+                "lizard_quantity": self.options.lizard_quantity.value,
                 "gridsanity": self.options.gridsanity.value,
                 "climbsanity": self.options.climbsanity.value,
                 "climbsanity_range": self.options.climbsanity_range.value,

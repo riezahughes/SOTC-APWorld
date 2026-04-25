@@ -522,7 +522,7 @@ class SotcWorld(World):
 
             if location.player == self.player and location.address is not None:
                 # we are the sender of the location check (skip events)
-                locations_address.append(item_dictionary(self.options)[location_dictionary[location.name].default_item].sotc_code)
+                locations_address.append(item_dictionary(self.options)[location.default_item_name].sotc_code)
                 locations_id.append(location.address)
                 if location.item is not None:
                     if location.item.player == self.player:

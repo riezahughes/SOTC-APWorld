@@ -11,12 +11,12 @@ class SotcItemCategory(IntEnum):
     STAMINA_UP = 3
     BOSS_SIGIL = 4
     SOUL_SHARD = 5
+    TRAP = 6
 
 
 class SotcItemData(NamedTuple):
     name: str
     category: SotcItemCategory
-    progression: bool
     quantity: Optional[int] = 1
     sotc_code: Optional[int] = None
 
@@ -64,26 +64,39 @@ key_item_names = {}
 # 16 Evis — Sigil of the Final Blasphemy
 
 items: List[SotcItemData] = [
-    SotcItemData("Sliver of Hope HP", SotcItemCategory.FILLER, True),
-    SotcItemData("Soul Shard", SotcItemCategory.SOUL_SHARD, True),  # needs ripped out and logic put somewhere else, but for now it's here as an item.
-    SotcItemData("Progressive Stamina Capacity", SotcItemCategory.STAMINA_UP, True),
-    SotcItemData("Progressive Health Capacity", SotcItemCategory.HP_UP, True),
-    SotcItemData("Sigil of the First Awakening", SotcItemCategory.BOSS_SIGIL, True),
-    SotcItemData("Sigil of Burdened Earth", SotcItemCategory.BOSS_SIGIL, True),
-    SotcItemData("Sigil of the Fallen Oath", SotcItemCategory.BOSS_SIGIL, True),
-    SotcItemData("Sigil of Veiled Fear", SotcItemCategory.BOSS_SIGIL, True),
-    SotcItemData("Sigil of the Skybound Silence", SotcItemCategory.BOSS_SIGIL, True),
-    SotcItemData("Sigil of the Hollow Shrine", SotcItemCategory.BOSS_SIGIL, True),
-    SotcItemData("Sigil of the Sunken Pulse", SotcItemCategory.BOSS_SIGIL, True),
-    SotcItemData("Sigil of the Watching Walls", SotcItemCategory.BOSS_SIGIL, True),
-    SotcItemData("Sigil of the Sealed Core", SotcItemCategory.BOSS_SIGIL, True),
-    SotcItemData("Sigil of the Devouring Wind", SotcItemCategory.BOSS_SIGIL, True),
-    SotcItemData("Sigil of the Broken Courage", SotcItemCategory.BOSS_SIGIL, True),
-    SotcItemData("Sigil of the Drowned Throne", SotcItemCategory.BOSS_SIGIL, True),
-    SotcItemData("Sigil of Endless Horizon", SotcItemCategory.BOSS_SIGIL, True),
-    SotcItemData("Sigil of Ruined Pride", SotcItemCategory.BOSS_SIGIL, True),
-    SotcItemData("Sigil of the Bound Colossus", SotcItemCategory.BOSS_SIGIL, True),
-    SotcItemData("Sigil of the Final Blasphemy", SotcItemCategory.BOSS_SIGIL, True),
+    SotcItemData("Sliver of Hope HP", SotcItemCategory.FILLER),
+    SotcItemData("Sliver of Courage Stamina", SotcItemCategory.FILLER),
+    SotcItemData("Soul Shard", SotcItemCategory.SOUL_SHARD),
+    SotcItemData("Progressive Stamina Capacity", SotcItemCategory.STAMINA_UP),
+    SotcItemData("Progressive Health Capacity", SotcItemCategory.HP_UP),
+    SotcItemData("Sigil of the First Awakening", SotcItemCategory.BOSS_SIGIL),
+    SotcItemData("Sigil of Burdened Earth", SotcItemCategory.BOSS_SIGIL),
+    SotcItemData("Sigil of the Fallen Oath", SotcItemCategory.BOSS_SIGIL),
+    SotcItemData("Sigil of Veiled Fear", SotcItemCategory.BOSS_SIGIL),
+    SotcItemData("Sigil of the Skybound Silence", SotcItemCategory.BOSS_SIGIL),
+    SotcItemData("Sigil of the Hollow Shrine", SotcItemCategory.BOSS_SIGIL),
+    SotcItemData("Sigil of the Sunken Pulse", SotcItemCategory.BOSS_SIGIL),
+    SotcItemData("Sigil of the Watching Walls", SotcItemCategory.BOSS_SIGIL),
+    SotcItemData("Sigil of the Sealed Core", SotcItemCategory.BOSS_SIGIL),
+    SotcItemData("Sigil of the Devouring Wind", SotcItemCategory.BOSS_SIGIL),
+    SotcItemData("Sigil of the Broken Courage", SotcItemCategory.BOSS_SIGIL),
+    SotcItemData("Sigil of the Drowned Throne", SotcItemCategory.BOSS_SIGIL),
+    SotcItemData("Sigil of Endless Horizon", SotcItemCategory.BOSS_SIGIL),
+    SotcItemData("Sigil of Ruined Pride", SotcItemCategory.BOSS_SIGIL),
+    SotcItemData("Sigil of the Bound Colossus", SotcItemCategory.BOSS_SIGIL),
+    SotcItemData("Sigil of the Final Blasphemy", SotcItemCategory.BOSS_SIGIL),
+    SotcItemData(
+        "Trap: Loose Reins",
+        SotcItemCategory.TRAP,
+    ),
+    SotcItemData(
+        "Trap: Sweaty Palms",
+        SotcItemCategory.TRAP,
+    ),
+    SotcItemData(
+        "Trap: Tired",
+        SotcItemCategory.TRAP,
+    ),
 ]
 
 # Convert raw list of tuples into MedievilItemData NamedTuple instances
@@ -109,49 +122,39 @@ def BuildItemPool(count: int, self) -> List[str]:
             if item_name in item_dictionary(self.options):
                 item_pool_names.append(item_name)
 
-    # Add Mcguffins equal to the configured quantity — Vagrant Story Example for if needed
-    # blood_sin_total = self.options.blood_sin_quantity.value
-    # for _ in range(blood_sin_total):
-    #     if len(item_pool_names) < count:
-    #         item_pool_names.append("Blood Sin Piece")
+    # Pick a random subset of sigils based on colossi_count
+    all_sigils = [item.name for item in _all_items if item.category == SotcItemCategory.BOSS_SIGIL]
+    colossi_count = self.options.colossi_count.value
+    chosen_sigils = self.multiworld.random.sample(all_sigils, min(colossi_count, len(all_sigils)))
+    self.chosen_sigils = chosen_sigils
 
-    # optional item example
-    # item_list_choice = (
-    #     _vanilla_items.copy()
-    #     if hasattr(self.options, "item_drop_option") and self.options.item_drop_option.value == ItemPoolDropOptions.VANILLA
-    #     else _all_items.copy()
-    # )
+    # Add Soul Shards based on the soul_shard_quantity option
+    soul_shards = ["Soul Shard"] * self.options.soul_shard_quantity.value
 
-    # Add Progression (Keys/Sigils/Grimoires/Gems) — quantity copies of each
+    # Add non-sigil progression items (stamina, hp) as normal
     progression_items = [
-        item.name
-        for item in _all_items
-        if item.category in [SotcItemCategory.BOSS_SIGIL, SotcItemCategory.STAMINA_UP, SotcItemCategory.HP_UP]
-        for _ in range(item.quantity or 1)
+        item.name for item in _all_items if item.category in [SotcItemCategory.STAMINA_UP, SotcItemCategory.HP_UP] for _ in range(item.quantity or 1)
     ]
 
-    # optional item addition
-    # if teleport_item is not None:
-    #     item_list_choice.append(teleport_item)
-    #     progression_items.append(teleport_item.name)
-
-    for name in progression_items:
+    for name in chosen_sigils + soul_shards + progression_items:
         if len(item_pool_names) < count:
             item_pool_names.append(name)
 
-    # Fill the remaining slots with Recovery/Stats — expanded by quantity for weighted selection
-    filler_candidates = [item.name for item in _all_items if item.category in [SotcItemCategory.FILLER] for _ in range(item.quantity or 1)]
+    # Fill the remaining slots with filler and optional traps
+    filler_candidates = [item.name for item in _all_items if item.category == SotcItemCategory.FILLER for _ in range(item.quantity or 1)]
+    trap_candidates = [item.name for item in _all_items if item.category == SotcItemCategory.TRAP]
 
-    # Fill until we hit the requested 'count'
-    while len(item_pool_names) < count:
-        if filler_candidates:
-            # Using choice here allows recovery items to repeat if the pool is very large
-            item_pool_names.append(self.multiworld.random.choice(filler_candidates))
-        else:
-            # Extreme fallback if even recovery items are missing
-            item_pool_names.append("Sliver of Hope HP")
-            if len(item_pool_names) >= count:
-                break
+    remaining = count - len(item_pool_names)
+    if self.options.trap_toggle.value and trap_candidates:
+        trap_count = round(remaining * (self.options.trap_percentage.value / 100))
+        trap_names = [self.multiworld.random.choice(trap_candidates) for _ in range(trap_count)]
+        filler_names = [
+            self.multiworld.random.choice(filler_candidates) if filler_candidates else "Sliver of Hope HP" for _ in range(remaining - trap_count)
+        ]
+        item_pool_names.extend(trap_names + filler_names)
+    else:
+        while len(item_pool_names) < count:
+            item_pool_names.append(self.multiworld.random.choice(filler_candidates) if filler_candidates else "Sliver of Hope HP")
 
     self.multiworld.random.shuffle(item_pool_names)
     return item_pool_names

@@ -1,10 +1,15 @@
-def kill_all_colossi(self, state):
-    return state.can_reach_location("Game End: Credits", self.player)
+from rule_builder.rules import Has, HasAll, HasAllCounts, CanReachLocation
+from rule_builder.field_resolvers import FromOption
+from .Options import SoulShardQuantity
 
 
-# def collect_all_lizards(self, state):
-#     return state
+def kill_all_colossi():
+    return CanReachLocation("Game End: Credits")
 
-# do a state count of all shards collected based on the options.
-# def soul_shards_collected(self, state):
-#     return state.
+
+def collect_all_shards():
+    return HasAllCounts({"Soul Shard": FromOption(SoulShardQuantity)})
+
+
+def collect_all_lizards():
+    return HasAllCounts({"Soul Shard": FromOption(SoulShardQuantity)})

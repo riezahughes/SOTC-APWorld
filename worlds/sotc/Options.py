@@ -28,6 +28,17 @@ class GoalOption(Choice):
     option_soul_shard_search = GoalOptions.SOUL_SHARD_SEARCH
 
 
+class CollosiCount(Range):
+    """
+    Number of Collosi in the Game. Bosses will be chosen at random based on how many you choose here
+    """
+
+    display_name = "Colossi in Game"
+    range_start = 0
+    range_end = 16
+    default = 16
+
+
 class SoulShardQuantity(Range):
     """
     Soul Shards Available in a Soul Shard Game. You must have Soul Shard Search as your Goal
@@ -137,6 +148,31 @@ class AgroSanityBreakPoints(Range):
     default = 1000
 
 
+class TrapToggle(Toggle):
+    """
+    Decides if you want traps in the pool or not. Traps include:
+    Loose Reins: Fall off Agro if you happen to be on her
+    Sweaty Palms: Slip from where you're climbing
+    Tired: You move at a slower speed
+    """
+
+    display_name = "Trap Items"
+    default = 1
+    option_true = 1
+    option_false = 0
+
+
+class TrapPercentage(Range):
+    """
+    If Trap Toggle is on, decide how much of your junk item pool should be used for traps
+    """
+
+    display_name = "Trap Percentage in Pool"
+    range_start = 1
+    range_end = 100
+    default = 5
+
+
 class DeathLinkToggle(Toggle):
     """Sets if you want deathlink or not"""
 
@@ -150,6 +186,7 @@ class DeathLinkToggle(Toggle):
 class SotcOption(PerGameCommonOptions):
     goal: GoalOption
     soul_shard_quantity: SoulShardQuantity
+    colossi_count: CollosiCount
     gridsanity: GridSanityToggle
     climbsanity: ClimbSanityToggle
     climbsanity_range: ClimbSanityRange
@@ -157,4 +194,7 @@ class SotcOption(PerGameCommonOptions):
     agrosanity: AgroSanityToggle
     agrosanity_range: AgroSanityRange
     agrosanity_break_points: AgroSanityBreakPoints
+    trap_toggle: TrapToggle
+    trap_percentage: TrapPercentage
+    deathlink: DeathLink
     guaranteed_items: GuaranteedItemsOption

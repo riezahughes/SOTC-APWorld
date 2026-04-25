@@ -64,6 +64,7 @@ class SotcLocation(Location):
             "Grid E3",
             "Grid F3",
             "Grid G3",
+            "Grid A4",
             "Grid B4",
             "Grid C4",
             "Grid D4",
@@ -71,6 +72,7 @@ class SotcLocation(Location):
             "Grid F4",
             "Grid G4",
             "Grid H4",
+            "Grid A5",
             "Grid B5",
             "Grid C5",
             "Grid D5",
@@ -91,6 +93,22 @@ class SotcLocation(Location):
             "Grid E8",
             "Grid F8",
             "Grid G8",
+            "Boss D1",
+            "Boss F1",
+            "Boss G1",
+            "Boss C2",
+            "Boss E2",
+            "Boss G2",
+            "Boss D3",
+            "Boss F3",
+            "Boss B4",
+            "Boss H4",
+            "Boss F5",
+            "Boss G5",
+            "Boss D6",
+            "Boss E6",
+            "Boss G6",
+            "Boss F8",
         ]
 
         output = {}
@@ -138,7 +156,6 @@ location_tables = {
     ],
     "Grid D1": [
         SotcLocationData("Map Grid D1", "Sliver of Hope HP", SotcLocationCategory.GRID_LOCATION),
-        SotcLocationData("Eel Kill - Col. 7", "Sliver of Hope HP", SotcLocationCategory.BOSS_KILL),
     ],
     "Grid E1": [
         SotcLocationData("Map Grid E1", "Sliver of Hope HP", SotcLocationCategory.GRID_LOCATION),
@@ -147,14 +164,12 @@ location_tables = {
     ],
     "Grid F1": [
         SotcLocationData("Map Grid F1", "Sliver of Hope HP", SotcLocationCategory.GRID_LOCATION),
-        SotcLocationData("Leo Kill - Col. 11", "Sliver of Hope HP", SotcLocationCategory.BOSS_KILL),
         SotcLocationData("F1 - Lizard - Center", "Sliver of Hope HP", SotcLocationCategory.LIZARD),
         SotcLocationData("F1 - Fruit - South West", "Sliver of Hope HP", SotcLocationCategory.FRUIT),
     ],
     "Grid G1": [
         SotcLocationData("Map Grid G1", "Sliver of Hope HP", SotcLocationCategory.GRID_LOCATION),
         SotcLocationData("G1 - Shrine", "Sliver of Hope HP", SotcLocationCategory.SHRINE),
-        SotcLocationData("Minotaur C Kill - Col. 15", "Sliver of Hope HP", SotcLocationCategory.BOSS_KILL),
         SotcLocationData("G1 - Lizard - Center", "Sliver of Hope HP", SotcLocationCategory.LIZARD),
         SotcLocationData("G1 - Lizard - West", "Sliver of Hope HP", SotcLocationCategory.LIZARD),
     ],
@@ -179,7 +194,6 @@ location_tables = {
     "Grid G2": [
         SotcLocationData("Map Grid G2", "Sliver of Hope HP", SotcLocationCategory.GRID_LOCATION),
         SotcLocationData("G2 - Shrine", "Sliver of Hope HP", SotcLocationCategory.SHRINE),
-        SotcLocationData("Poseidon Kill - Col. 12", "Sliver of Hope HP", SotcLocationCategory.BOSS_KILL),
         SotcLocationData("G2 - Lizard - Center", "Sliver of Hope HP", SotcLocationCategory.LIZARD),
     ],
     "Grid B3": [
@@ -189,19 +203,16 @@ location_tables = {
     "Grid C3": [
         SotcLocationData("Map Grid C3", "Sliver of Hope HP", SotcLocationCategory.GRID_LOCATION),
         SotcLocationData("C3 - Shrine", "Sliver of Hope HP", SotcLocationCategory.SHRINE),
-        SotcLocationData("Cerberus Kill - Col. 14", "Sliver of Hope HP", SotcLocationCategory.BOSS_KILL),
         SotcLocationData("C3 - Lizard - South West", "Sliver of Hope HP", SotcLocationCategory.LIZARD),
         SotcLocationData("C3 - Fruit - South", "Sliver of Hope HP", SotcLocationCategory.FRUIT),
     ],
     "Grid D3": [
         SotcLocationData("Map Grid D3", "Sliver of Hope HP", SotcLocationCategory.GRID_LOCATION),
-        SotcLocationData("Kame Kill - Col. 9", "Sliver of Hope HP", SotcLocationCategory.BOSS_KILL),
     ],
     "Grid E3": [
         SotcLocationData("Map Grid E3", "Sliver of Hope HP", SotcLocationCategory.GRID_LOCATION),
         SotcLocationData("E3 - Shrine North", "Sliver of Hope HP", SotcLocationCategory.SHRINE),
         SotcLocationData("E3 - Shrine South", "Sliver of Hope HP", SotcLocationCategory.SHRINE),
-        SotcLocationData("Knight Kill - Col. 3", "Sliver of Hope HP", SotcLocationCategory.BOSS_KILL),
         SotcLocationData("E3 - Lizard - South East 1", "Sliver of Hope HP", SotcLocationCategory.LIZARD),
         SotcLocationData("E3 - Lizard - South East 2", "Sliver of Hope HP", SotcLocationCategory.LIZARD),
         SotcLocationData("E3 - Lizard - North West", "Sliver of Hope HP", SotcLocationCategory.LIZARD),
@@ -210,18 +221,19 @@ location_tables = {
     ],
     "Grid F3": [
         SotcLocationData("Map Grid F3", "Sliver of Hope HP", SotcLocationCategory.GRID_LOCATION),
-        SotcLocationData("Mammoth Kill - Col. 2", "Sliver of Hope HP", SotcLocationCategory.BOSS_KILL),
     ],
     "Grid G3": [
         SotcLocationData("Map Grid G3", "Sliver of Hope HP", SotcLocationCategory.GRID_LOCATION),
         SotcLocationData("G3 - Shrine", "Sliver of Hope HP", SotcLocationCategory.SHRINE),
         SotcLocationData("G3 - Lizard - North West", "Sliver of Hope HP", SotcLocationCategory.LIZARD),
     ],
+    "Grid A4": [
+        SotcLocationData("Map Grid A4", "Sliver of Hope HP", SotcLocationCategory.GRID_LOCATION),
+    ],
     "Grid B4": [
         SotcLocationData("Map Grid B4", "Sliver of Hope HP", SotcLocationCategory.GRID_LOCATION),
         SotcLocationData("B4 - Shrine North", "Sliver of Hope HP", SotcLocationCategory.SHRINE),
         SotcLocationData("B4 - Shrine South", "Sliver of Hope HP", SotcLocationCategory.SHRINE),
-        SotcLocationData("Narga Kill - Col. 10", "Sliver of Hope HP", SotcLocationCategory.BOSS_KILL),
         SotcLocationData("B4 - Lizard - North East", "Sliver of Hope HP", SotcLocationCategory.LIZARD),
         SotcLocationData("B4 - Lizard - South West", "Sliver of Hope HP", SotcLocationCategory.LIZARD),
     ],
@@ -261,8 +273,10 @@ location_tables = {
     ],
     "Grid H4": [
         SotcLocationData("Map Grid H4", "Sliver of Hope HP", SotcLocationCategory.GRID_LOCATION),
-        SotcLocationData("Bird Kill - Col. 5", "Sliver of Hope HP", SotcLocationCategory.BOSS_KILL),
         SotcLocationData("H4 - Lizard - West", "Sliver of Hope HP", SotcLocationCategory.LIZARD),
+    ],
+    "Grid A5": [
+        SotcLocationData("Map Grid A5", "Sliver of Hope HP", SotcLocationCategory.GRID_LOCATION),
     ],
     "Grid B5": [
         SotcLocationData("Map Grid B5", "Sliver of Hope HP", SotcLocationCategory.GRID_LOCATION),
@@ -296,14 +310,12 @@ location_tables = {
     ],
     "Grid F5": [
         SotcLocationData("Map Grid F5", "Sliver of Hope HP", SotcLocationCategory.GRID_LOCATION),
-        SotcLocationData("Minotaur A Kill - Col. 1", "Sliver of Hope HP", SotcLocationCategory.BOSS_KILL),
         SotcLocationData("F5 - Lizard - North", "Sliver of Hope HP", SotcLocationCategory.LIZARD),
         SotcLocationData("F5 - Lizard - South", "Sliver of Hope HP", SotcLocationCategory.LIZARD),
         SotcLocationData("E5 - Fruit - North", "Sliver of Hope HP", SotcLocationCategory.FRUIT),
     ],
     "Grid G5": [
         SotcLocationData("Map Grid G5", "Sliver of Hope HP", SotcLocationCategory.GRID_LOCATION),
-        SotcLocationData("Kirin Kill - Col. 4", "Sliver of Hope HP", SotcLocationCategory.BOSS_KILL),
         SotcLocationData("G5 - Lizard - East", "Sliver of Hope HP", SotcLocationCategory.LIZARD),
         SotcLocationData("G5 - Lizard - West", "Sliver of Hope HP", SotcLocationCategory.LIZARD),
     ],
@@ -313,7 +325,6 @@ location_tables = {
     ],
     "Grid D6": [
         SotcLocationData("Map Grid D6", "Sliver of Hope HP", SotcLocationCategory.GRID_LOCATION),
-        SotcLocationData("Minotaur B Kill - Col. 6", "Sliver of Hope HP", SotcLocationCategory.BOSS_KILL),
         SotcLocationData("D6 - Lizard - North", "Sliver of Hope HP", SotcLocationCategory.LIZARD),
         SotcLocationData("D6 - Lizard - North East", "Sliver of Hope HP", SotcLocationCategory.LIZARD),
         SotcLocationData("D6 - Fruit - North East 1", "Sliver of Hope HP", SotcLocationCategory.FRUIT),
@@ -321,7 +332,6 @@ location_tables = {
     ],
     "Grid E6": [
         SotcLocationData("Map Grid E6", "Sliver of Hope HP", SotcLocationCategory.GRID_LOCATION),
-        SotcLocationData("Snake Kill - Col. 13", "Sliver of Hope HP", SotcLocationCategory.BOSS_KILL),
         SotcLocationData("E6 - Lizard - Center", "Sliver of Hope HP", SotcLocationCategory.LIZARD),
         SotcLocationData("E6 - Lizard - South East", "Sliver of Hope HP", SotcLocationCategory.LIZARD),
         SotcLocationData("E6 - Lizard - North West", "Sliver of Hope HP", SotcLocationCategory.LIZARD),
@@ -335,7 +345,6 @@ location_tables = {
     "Grid G6": [
         SotcLocationData("Map Grid G6", "Sliver of Hope HP", SotcLocationCategory.GRID_LOCATION),
         SotcLocationData("G6 - Shrine", "Sliver of Hope HP", SotcLocationCategory.SHRINE),
-        SotcLocationData("Yamori B Kill - Col. 8", "Sliver of Hope HP", SotcLocationCategory.BOSS_KILL),
         SotcLocationData("G6 - Lizard - North West", "Sliver of Hope HP", SotcLocationCategory.LIZARD),
         SotcLocationData("G6 - Fruit - East", "Sliver of Hope HP", SotcLocationCategory.FRUIT),
     ],
@@ -395,7 +404,6 @@ location_tables = {
     "Grid F8": [
         SotcLocationData("Map Grid F8", "Sliver of Hope HP", SotcLocationCategory.GRID_LOCATION),
         SotcLocationData("F8 - Shrine", "Sliver of Hope HP", SotcLocationCategory.SHRINE),
-        SotcLocationData("Evis Kill - Col. 16", "Sliver of Hope HP", SotcLocationCategory.BOSS_KILL),
         SotcLocationData("F8 - Lizard - Center", "Sliver of Hope HP", SotcLocationCategory.LIZARD),
     ],
     "Grid G8": [
@@ -405,6 +413,22 @@ location_tables = {
         SotcLocationData("G8 - Fruit - North East 1", "Sliver of Hope HP", SotcLocationCategory.FRUIT),
         SotcLocationData("G8 - Fruit - North East 2", "Sliver of Hope HP", SotcLocationCategory.FRUIT),
     ],
+    "Boss D1": [SotcLocationData("Eel Kill - Col. 7", "Sliver of Hope HP", SotcLocationCategory.BOSS_KILL)],
+    "Boss F1": [SotcLocationData("Leo Kill - Col. 11", "Sliver of Hope HP", SotcLocationCategory.BOSS_KILL)],
+    "Boss G1": [SotcLocationData("Minotaur C Kill - Col. 15", "Sliver of Hope HP", SotcLocationCategory.BOSS_KILL)],
+    "Boss C2": [SotcLocationData("Cerberus Kill - Col. 14", "Sliver of Hope HP", SotcLocationCategory.BOSS_KILL)],
+    "Boss E2": [SotcLocationData("Knight Kill - Col. 3", "Sliver of Hope HP", SotcLocationCategory.BOSS_KILL)],
+    "Boss G2": [SotcLocationData("Poseidon Kill - Col. 12", "Sliver of Hope HP", SotcLocationCategory.BOSS_KILL)],
+    "Boss D3": [SotcLocationData("Kame Kill - Col. 9", "Sliver of Hope HP", SotcLocationCategory.BOSS_KILL)],
+    "Boss F3": [SotcLocationData("Mammoth Kill - Col. 2", "Sliver of Hope HP", SotcLocationCategory.BOSS_KILL)],
+    "Boss B4": [SotcLocationData("Narga Kill - Col. 10", "Sliver of Hope HP", SotcLocationCategory.BOSS_KILL)],
+    "Boss H4": [SotcLocationData("Bird Kill - Col. 5", "Sliver of Hope HP", SotcLocationCategory.BOSS_KILL)],
+    "Boss F5": [SotcLocationData("Mintaur A Kill - Col. 1", "Sliver of Hope HP", SotcLocationCategory.BOSS_KILL)],
+    "Boss G5": [SotcLocationData("Kirin Kill - Col. 4", "Sliver of Hope HP", SotcLocationCategory.BOSS_KILL)],
+    "Boss D6": [SotcLocationData("Minotaur B Kill - Col. 6", "Sliver of Hope HP", SotcLocationCategory.BOSS_KILL)],
+    "Boss E6": [SotcLocationData("Snake Kill - Col. 13", "Sliver of Hope HP", SotcLocationCategory.BOSS_KILL)],
+    "Boss G6": [SotcLocationData("Yamori B Kill - Col. 8", "Sliver of Hope HP", SotcLocationCategory.BOSS_KILL)],
+    "Boss F8": [SotcLocationData("Evis Kill - Col. 16", "Sliver of Hope HP", SotcLocationCategory.BOSS_KILL)],
 }
 
 

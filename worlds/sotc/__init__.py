@@ -1,4 +1,3 @@
-# world/dc2/__init__.py
 from typing import Dict, Set, List
 
 from BaseClasses import MultiWorld, Region, Item, Entrance, Tutorial, ItemClassification, CollectionState
@@ -11,6 +10,7 @@ from .Items import SotcItem, SotcItemCategory, item_dictionary, key_item_names, 
 from .Locations import SotcLocation, SotcLocationCategory, SotcLocationData, location_tables, location_dictionary, create_traversal_locations
 from .Options import (
     SotcOption,
+    GoalOptions,
     SoulShardQuantity,
     GridSanityToggle,
     ClimbSanityToggle,
@@ -22,18 +22,9 @@ from .Options import (
     GuaranteedItemsOption,
 )
 
-# from .Rules import (
-#     set_vanilla_key_item_progression,
-#     set_vanilla_boss_progression,
-#     set_open_progression,
-#     set_time_trial_rules,
-#     set_chain_unlock_rules,
-#     set_break_art_rules,
-#     set_blood_sin_endgame_rule,
-#     set_one_way_door_rules,
-#     set_vanilla_break_art_prerequisite,
-# )
-from .VictoryConditions import kill_all_colossi
+from .Rules import set_boss_progression
+
+from .VictoryConditions import kill_all_colossi, collect_all_shards, collect_all_lizards
 
 
 class SotcWeb(WebWorld):
@@ -111,6 +102,7 @@ class SotcWorld(World):
             "Grid E3",
             "Grid F3",
             "Grid G3",
+            "Grid A4",
             "Grid B4",
             "Grid C4",
             "Grid D4",
@@ -118,6 +110,7 @@ class SotcWorld(World):
             "Grid F4",
             "Grid G4",
             "Grid H4",
+            "Grid A5",
             "Grid B5",
             "Grid C5",
             "Grid D5",
@@ -138,11 +131,28 @@ class SotcWorld(World):
             "Grid E8",
             "Grid F8",
             "Grid G8",
+            "Boss D1",
+            "Boss F1",
+            "Boss G1",
+            "Boss C2",
+            "Boss E2",
+            "Boss G2",
+            "Boss D3",
+            "Boss F3",
+            "Boss B4",
+            "Boss H4",
+            "Boss F5",
+            "Boss G5",
+            "Boss D6",
+            "Boss E6",
+            "Boss G6",
+            "Boss F8",
         ]
 
         regions["Traversal"] = self.create_region("Traversal", create_traversal_locations(self.options))
 
         regions["Menu"] = self.create_region("Menu", [])
+        regions["Game Clear"] = self.create_region("Game Clear", [])
 
         regions.update({region_name: self.create_region(region_name, location_tables[region_name]) for region_name in list_of_regions})
 
@@ -154,68 +164,241 @@ class SotcWorld(World):
         create_connection("Menu", "Traversal")
         create_connection("Traversal", "Grid F4")  # Game Starting Position
 
-        create_connection("Grid C2", "Grid D2")
-        create_connection("Grid D2", "Grid C2")
-        create_connection("Grid D2", "Grid E2")
-        create_connection("Grid E2", "Grid D2")
-        create_connection("Grid E2", "Grid F2")
-        create_connection("Grid F2", "Grid E2")
-        create_connection("Grid F2", "Grid G2")
-        create_connection("Grid G2", "Grid F2")
+        # C1 Connections
+        create_connection("Grid C1", "Grid D1")
+        create_connection("Grid C1", "Grid D2")
+        create_connection("Grid C1", "Grid C2")
 
+        # D1 Connections
+        create_connection("Grid D1", "Grid C1")
+        create_connection("Grid D1", "Grid D2")
+        create_connection("Grid D1", "Grid E1")
+        create_connection("Grid D1", "Boss D1")
+
+        # E1 Connections
+        create_connection("Grid E1", "Grid D1")
+        create_connection("Grid E1", "Grid F1")
+
+        # F1 Connections
+        create_connection("Grid F1", "Grid F0")
+        create_connection("Grid F1", "Grid E1")
+        create_connection("Grid F1", "Grid F2")
+        create_connection("Grid F1", "Grid G1")
+        create_connection("Grid F1", "Boss F1")
+
+        # G1 Connections
+        create_connection("Grid G1", "Grid F1")
+        create_connection("Grid G1", "Boss G1")
+
+        # C2 Connections
+        create_connection("Grid C2", "Grid C1")
+        create_connection("Grid C2", "Boss C2")
+
+        # D2 Connections
+        create_connection("Grid D2", "Grid C1")
+        create_connection("Grid D2", "Grid D1")
+        create_connection("Grid D2", "Grid E2")
+        create_connection("Grid D2", "Grid E3")
+        create_connection("Grid D2", "Grid D3")
+
+        # E2 Connections
+        create_connection("Grid E2", "Grid D2")
+        create_connection("Grid E2", "Grid E3")
+        create_connection("Grid E2", "Boss E2")
+
+        # F2 Connections
+        create_connection("Grid F2", "Grid F1")
+        create_connection("Grid F2", "Grid F3")
+
+        # G2 Connections
+        create_connection("Grid G2", "Grid G3")
+        create_connection("Grid G2", "Boss G2")
+
+        # B3 Connections
+        create_connection("Grid B3", "Grid B4")
+        create_connection("Grid B3", "Grid C3")
+
+        # C3 Connections
+        create_connection("Grid C3", "Grid B3")
+        create_connection("Grid C3", "Grid C4")
         create_connection("Grid C3", "Grid D3")
+
+        # D3 Connections
+        create_connection("Grid D3", "Grid D2")
         create_connection("Grid D3", "Grid C3")
         create_connection("Grid D3", "Grid E3")
+        create_connection("Grid D3", "Grid D4")
+        create_connection("Grid D3", "Boss D3")
+
+        # E3 Connections
+        create_connection("Grid E3", "Grid D2")
         create_connection("Grid E3", "Grid D3")
-
         create_connection("Grid E3", "Grid F3")
-        create_connection("Grid F3", "Grid E3")
+        create_connection("Grid E3", "Grid E4")
 
-        create_connection("Grid F3", "Grid F4")  # vertical choke
+        # F3 Connections
+        create_connection("Grid F3", "Grid E3")
+        create_connection("Grid F3", "Grid F2")
+        create_connection("Grid F3", "Grid F4")
+        create_connection("Grid F3", "Grid G3")
+        create_connection("Grid F3", "Boss F3")
+
+        # G3 Connections
+        create_connection("Grid G3", "Grid G2")
+        create_connection("Grid G3", "Grid F3")
+        create_connection("Grid G3", "Grid G4")
+
+        # A4 Connections
+        create_connection("Grid A4", "Grid B4")
+        create_connection("Grid A4", "Grid A5")
+
+        # B4 Connections
+        create_connection("Grid B4", "Grid C4")
+        create_connection("Grid B4", "Grid A4")
+        create_connection("Grid B4", "Grid B3")
+        create_connection("Grid B4", "Boss B4")
+
+        # C4 Connection
+        create_connection("Grid C4", "Grid B4")
+        create_connection("Grid C4", "Grid C3")
+        create_connection("Grid C4", "Grid D4")
+
+        # D4 Connection
+        create_connection("Grid D4", "Grid C4")
+        create_connection("Grid D4", "Grid E4")
+        create_connection("Grid D4", "Grid D3")
+
+        # E4 Connection
+        create_connection("Grid E4", "Grid D4")
+        create_connection("Grid E4", "Grid E3")
+        create_connection("Grid E4", "Grid F4")
+        create_connection("Grid E4", "Grid E5")
+
+        # F4 Connection
+        create_connection("Grid F4", "Grid E4")
+        create_connection("Grid F4", "Grid F5")
+        create_connection("Grid F4", "Grid G4")
         create_connection("Grid F4", "Grid F3")
 
-        create_connection("Grid F3", "Grid G3")
-        create_connection("Grid G3", "Grid F3")
-
-        # West side
-        create_connection("Grid B4", "Grid C4")
-        create_connection("Grid C4", "Grid B4")
-
-        # East side
-        create_connection("Grid F4", "Grid G4")
+        # G4 Connection
         create_connection("Grid G4", "Grid F4")
+        create_connection("Grid G4", "Grid G3")
+        create_connection("Grid G4", "Grid G5")
         create_connection("Grid G4", "Grid H4")
+
+        # H4 Connection
         create_connection("Grid H4", "Grid G4")
+        create_connection("Grid H4", "Boss H4")
 
-        # West landmass
+        # A5 Connections
+        create_connection("Grid A5", "Grid A4")
+        create_connection("Grid A5", "Grid B5")
+
+        # B5 Connections
+        create_connection("Grid B5", "Grid A5")
         create_connection("Grid B5", "Grid C5")
+
+        # C5 Connections
         create_connection("Grid C5", "Grid B5")
+        create_connection("Grid C5", "Grid C6")
+        create_connection("Grid C5", "Grid D5")
 
-        # Central south
+        # D5 Connections
+        create_connection("Grid D5", "Grid C5")
+        create_connection("Grid D5", "Grid D6")
+        create_connection("Grid D5", "Grid E5")
+
+        # E5 Connections
+        create_connection("Grid E5", "Grid D5")
         create_connection("Grid E5", "Grid F5")
+        create_connection("Grid E5", "Grid E6")
+
+        # F5 Connections
         create_connection("Grid F5", "Grid E5")
+        create_connection("Grid F5", "Grid G5")
+        create_connection("Grid F5", "Grid F4")
+        create_connection("Grid F5", "Grid F6")
+        create_connection("Grid F5", "Boss F5")
 
+        # G5 Connections
+        create_connection("Grid G5", "Grid F5")
+        create_connection("Grid G5", "Grid G6")
+        create_connection("Grid G5", "Grid G4")
+        create_connection("Grid G5", "Boss G5")
+
+        # C6 Connections
+        create_connection("Grid C6", "Grid C5")
+        create_connection("Grid C6", "Grid D5")
         create_connection("Grid C6", "Grid D6")
+
+        # D6 Connections
         create_connection("Grid D6", "Grid C6")
-
+        create_connection("Grid D6", "Grid D5")
+        create_connection("Grid D6", "Grid D7")
         create_connection("Grid D6", "Grid E6")
+        create_connection("Grid D6", "Boss D6")
+
+        # E6 Connections
+        create_connection("Grid E6", "Grid E5")
+        create_connection("Grid E6", "Grid E7")
         create_connection("Grid E6", "Grid D6")
-
         create_connection("Grid E6", "Grid F6")
+        create_connection("Grid E6", "Boss E6")
+
+        # F6 Connections
+        create_connection("Grid F6", "Grid F5")
+        create_connection("Grid F6", "Grid F7")
         create_connection("Grid F6", "Grid E6")
-
         create_connection("Grid F6", "Grid G6")
+
+        # G6 Connections
+        create_connection("Grid G6", "Grid G5")
+        create_connection("Grid G6", "Grid G7")
         create_connection("Grid G6", "Grid F6")
+        create_connection("Grid G6", "Grid H6")
+        create_connection("Grid G6", "Boss G6")
 
+        # H6 Connections
+        create_connection("Grid H6", "Grid H7")
+        create_connection("Grid H6", "Grid G6")
+
+        # D7 Connections
+        create_connection("Grid D7", "Grid D6")
+        create_connection("Grid D7", "Grid E7")
+
+        # E7 Connections
+        create_connection("Grid E7", "Grid D7")
+        create_connection("Grid E7", "Grid E6")
         create_connection("Grid E7", "Grid F7")
+        create_connection("Grid E7", "Grid E8")
+
+        # F7 Connections
         create_connection("Grid F7", "Grid E7")
-
+        create_connection("Grid F7", "Grid F6")
         create_connection("Grid F7", "Grid F8")
-        create_connection("Grid F8", "Grid F7")
-        create_connection("Grid G7", "Grid G8")
-        create_connection("Grid G8", "Grid G7")
+        create_connection("Grid F7", "Grid G7")
 
-        # create_connection("Ashley", "Menu")
+        # G7 Connections
+        create_connection("Grid G7", "Grid G6")
+        create_connection("Grid G7", "Grid G8")
+        create_connection("Grid G7", "Grid E7")
+        create_connection("Grid G7", "Grid H7")
+
+        # H7 Connections
+        create_connection("Grid H7", "Grid G7")
+        create_connection("Grid H7", "Grid H6")
+
+        # E8 Connections
+        create_connection("Grid E8", "Grid E7")
+
+        # F8 connections
+        create_connection("Grid F8", "Grid F7")
+        create_connection("Grid F8", "Boss F8")
+
+        create_connection("Boss F8", "Game Clear")
+
+        # G8 Connections
+        create_connection("Grid G8", "Grid G7")
 
     # For each region, add the associated locations retrieved from the corresponding location_table
     def create_region(self, region_name, location_table) -> Region:
@@ -275,19 +458,14 @@ class SotcWorld(World):
         item_classification: ItemClassification
 
         if (
-            item_data.progression
-            or item_data.category == SotcItemCategory.STAMINA_UP
+            item_data.category == SotcItemCategory.STAMINA_UP
             or item_data.category == SotcItemCategory.HP_UP
             or item_data.category == SotcItemCategory.BOSS_SIGIL
             or item_data.category == SotcItemCategory.SOUL_SHARD
         ):
             item_classification = ItemClassification.progression
-        # elif (
-        #     item_data.category == SotcItemCategory.
-        #     or item_data.category == SotcItemCategory.CHAIN_ABILITY
-        #     or item_data.category == SotcItemCategory.DEFENCE_ABILITY
-        # ):
-        #     item_classification = ItemClassification.useful
+        elif item_data.category == SotcItemCategory.TRAP:
+            item_classification = ItemClassification.trap
         else:  # Default for FILLER or other categories not explicitly useful/progression
             item_classification = ItemClassification.filler
 
@@ -300,6 +478,15 @@ class SotcWorld(World):
         for region in self.multiworld.get_regions(self.player):
             for location in region.locations:
                 set_rule(location, lambda state: True)
+
+        if self.options.goal.value == GoalOptions.KILL_ALL_COLOSSI:
+            self.set_completion_rule(kill_all_colossi())
+        elif self.options.goal.value == GoalOptions.SOUL_SHARD_SEARCH:
+            self.set_completion_rule(collect_all_shards())
+        elif self.options.goal.value == GoalOptions.COLLECT_ALL_LIZARDS:
+            self.set_completion_rule(collect_all_lizards())
+
+        set_boss_progression(self)
 
         # from Utils import visualize_regions
 
@@ -340,6 +527,7 @@ class SotcWorld(World):
             "options": {
                 "goal": self.options.goal.value,
                 "soul_shard_quantity": self.options.soul_shard_quantity.value,
+                "colossi_count": self.options.colossi_count.value,
                 "gridsanity": self.options.gridsanity.value,
                 "climbsanity": self.options.climbsanity.value,
                 "climbsanity_range": self.options.climbsanity_range.value,
@@ -347,6 +535,9 @@ class SotcWorld(World):
                 "agrosanity": self.options.agrosanity.value,
                 "argosanity_range": self.options.agrosanity_range.value,
                 "argosanity_break_points": self.options.agrosanity_break_points.value,
+                "trap_toggle": self.options.trap_toggle.value,
+                "trap_percentage": self.options.trap_percentage.value,
+                "deathlink": self.options.deathlink.value,
                 "guaranteed_items": self.options.guaranteed_items.value,
             },
             "seed": self.multiworld.seed_name,  # to verify the server's multiworld

@@ -146,3 +146,5 @@ For Frequently asked questions, please see the website's [FAQ Page](https://arch
 ## Code of Conduct
 
 Please refer to our [code of conduct](/docs/code_of_conduct.md).
+
+`python fuzz.py -r 100 -j 16 -g sotc -n 1`

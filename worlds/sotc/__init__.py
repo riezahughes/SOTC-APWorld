@@ -496,7 +496,7 @@ class SotcWorld(World):
             or item_data.category == SotcItemCategory.SOUL_SHARD
         ):
             item_classification = ItemClassification.progression
-        if item_data.category == SotcItemCategory.PASSIVE_ABILITY or item_data.category == SotcItemCategory.EQUIPMENT:
+        elif item_data.category == SotcItemCategory.PASSIVE_ABILITY or item_data.category == SotcItemCategory.EQUIPMENT:
             item_classification = ItemClassification.useful
         elif item_data.category == SotcItemCategory.TRAP:
             item_classification = ItemClassification.trap

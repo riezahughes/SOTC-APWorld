@@ -12,7 +12,9 @@ class SotcItemCategory(IntEnum):
     BOSS_SIGIL = 4
     SOUL_SHARD = 5
     LIZARD_TAIL = 6
-    TRAP = 7
+    EQUIPMENT = 7
+    PASSIVE_ABILITY = 8
+    TRAP = 9
 
 
 class SotcItemData(NamedTuple):
@@ -71,6 +73,20 @@ items: List[SotcItemData] = [
     SotcItemData("Lizard Tail", SotcItemCategory.LIZARD_TAIL),
     SotcItemData("Progressive Stamina Capacity", SotcItemCategory.STAMINA_UP),
     SotcItemData("Progressive Health Capacity", SotcItemCategory.HP_UP),
+    SotcItemData("Cloak of Deception", SotcItemCategory.EQUIPMENT),
+    SotcItemData("Cloak of Force", SotcItemCategory.EQUIPMENT),
+    SotcItemData("Cloth of Desperation", SotcItemCategory.EQUIPMENT),
+    SotcItemData("Flash Arrow", SotcItemCategory.EQUIPMENT),
+    SotcItemData("Harpoon of Thunder", SotcItemCategory.EQUIPMENT),
+    SotcItemData("Mask of Power", SotcItemCategory.EQUIPMENT),
+    SotcItemData("Mask of Strength", SotcItemCategory.EQUIPMENT),
+    SotcItemData("Queen's Sword", SotcItemCategory.EQUIPMENT),
+    SotcItemData("Shaman's Cloak", SotcItemCategory.EQUIPMENT),
+    SotcItemData("Shaman's Mask", SotcItemCategory.EQUIPMENT),
+    SotcItemData("Sword of the Sun", SotcItemCategory.EQUIPMENT),
+    SotcItemData("Whistling Arrow", SotcItemCategory.EQUIPMENT),
+    SotcItemData("Lizard Detection Stone", SotcItemCategory.PASSIVE_ABILITY),
+    SotcItemData("Fruit Tree Map", SotcItemCategory.PASSIVE_ABILITY),
     SotcItemData("Sigil of the First Awakening", SotcItemCategory.BOSS_SIGIL),
     SotcItemData("Sigil of Burdened Earth", SotcItemCategory.BOSS_SIGIL),
     SotcItemData("Sigil of the Fallen Oath", SotcItemCategory.BOSS_SIGIL),
@@ -135,7 +151,10 @@ def BuildItemPool(count: int, self) -> List[str]:
 
     # Add non-sigil progression items (stamina, hp) as normal
     progression_items = [
-        item.name for item in _all_items if item.category in [SotcItemCategory.STAMINA_UP, SotcItemCategory.HP_UP] for _ in range(item.quantity or 1)
+        item.name
+        for item in _all_items
+        if item.category in [SotcItemCategory.STAMINA_UP, SotcItemCategory.HP_UP, SotcItemCategory.EQUIPMENT, SotcItemCategory.PASSIVE_ABILITY]
+        for _ in range(item.quantity or 1)
     ]
 
     for name in chosen_sigils + soul_shards + progression_items:

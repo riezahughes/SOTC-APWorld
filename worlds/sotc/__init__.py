@@ -458,8 +458,7 @@ class SotcWorld(World):
 
         print(f"Requesting itempool size for randomized locations: {randomized_location_count}")
 
-        if (self.options.goal.value == GoalOptions.SOUL_SHARD_SEARCH
-                and self.options.soul_shard_quantity.value > randomized_location_count):
+        if self.options.goal.value == GoalOptions.SOUL_SHARD_SEARCH and self.options.soul_shard_quantity.value > randomized_location_count:
             raise OptionError(
                 f"soul_shard_quantity ({self.options.soul_shard_quantity.value}) exceeds the total number of "
                 f"available locations ({randomized_location_count}). Reduce soul_shard_quantity or enable "
@@ -497,6 +496,8 @@ class SotcWorld(World):
             or item_data.category == SotcItemCategory.SOUL_SHARD
         ):
             item_classification = ItemClassification.progression
+        if item_data.category == SotcItemCategory.PASSIVE_ABILITY or item_data.category == SotcItemCategory.EQUIPMENT:
+            item_classification = ItemClassification.useful
         elif item_data.category == SotcItemCategory.TRAP:
             item_classification = ItemClassification.trap
         else:  # Default for FILLER or other categories not explicitly useful/progression

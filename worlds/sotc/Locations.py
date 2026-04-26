@@ -44,7 +44,7 @@ class SotcLocation(Location):
 
     @staticmethod
     def get_name_to_id() -> dict:
-        base_id = 99110000
+        base_id = 90000000
         region_offset = 1000
         table_order = [
             "Grid F0",
@@ -120,16 +120,16 @@ class SotcLocation(Location):
                 for j, location_data in enumerate(location_tables[region_name]):
                     # Assign an ID to each location within the region
                     # The ID for each location in a region will be current_region_base_id + j
-                    # print(f"{current_region_base_id + j}: {location_data.name}")
+                    print(f"{current_region_base_id + j}: {location_data.name}")
                     output[location_data.name] = current_region_base_id + j
 
         # Pre-register all possible Climbing Distance check IDs (max range 5000m, min breakpoint 1m)
-        _climb_id_base = 99200001
+        _climb_id_base = 98000000
         for n in range(1, 5001):
             output[f"Climbing Distance: {n}"] = _climb_id_base + n - 1
 
         # Pre-register all possible Riding Distance check IDs (max range 50000m, min breakpoint 1m)
-        _ride_id_base = 99210001
+        _ride_id_base = 99000000
         for n in range(1, 50001):
             output[f"Riding Distance: {n}"] = _ride_id_base + n - 1
 
@@ -273,7 +273,6 @@ location_tables = {
     ],
     "Grid H4": [
         SotcLocationData("Map Grid H4", "Sliver of Hope HP", SotcLocationCategory.GRID_LOCATION),
-        SotcLocationData("H4 - Lizard - West", "Sliver of Hope HP", SotcLocationCategory.LIZARD),
     ],
     "Grid A5": [
         SotcLocationData("Map Grid A5", "Sliver of Hope HP", SotcLocationCategory.GRID_LOCATION),
@@ -289,8 +288,6 @@ location_tables = {
         SotcLocationData("Map Grid C5", "Sliver of Hope HP", SotcLocationCategory.GRID_LOCATION),
         SotcLocationData("C5 - Shrine", "Sliver of Hope HP", SotcLocationCategory.SHRINE),
         SotcLocationData("C5 - Lizard - South East", "Sliver of Hope HP", SotcLocationCategory.LIZARD),
-        SotcLocationData("C5 - Fruit - South West 1", "Sliver of Hope HP", SotcLocationCategory.FRUIT),
-        SotcLocationData("C5 - Fruit - South West 2", "Sliver of Hope HP", SotcLocationCategory.FRUIT),
         SotcLocationData("C5 - Fruit - East", "Sliver of Hope HP", SotcLocationCategory.FRUIT),
     ],
     "Grid D5": [
@@ -310,18 +307,16 @@ location_tables = {
     ],
     "Grid F5": [
         SotcLocationData("Map Grid F5", "Sliver of Hope HP", SotcLocationCategory.GRID_LOCATION),
-        SotcLocationData("F5 - Lizard - North", "Sliver of Hope HP", SotcLocationCategory.LIZARD),
-        SotcLocationData("F5 - Lizard - South", "Sliver of Hope HP", SotcLocationCategory.LIZARD),
         SotcLocationData("E5 - Fruit - North", "Sliver of Hope HP", SotcLocationCategory.FRUIT),
     ],
     "Grid G5": [
         SotcLocationData("Map Grid G5", "Sliver of Hope HP", SotcLocationCategory.GRID_LOCATION),
-        SotcLocationData("G5 - Lizard - East", "Sliver of Hope HP", SotcLocationCategory.LIZARD),
-        SotcLocationData("G5 - Lizard - West", "Sliver of Hope HP", SotcLocationCategory.LIZARD),
     ],
     "Grid C6": [
         SotcLocationData("Map Grid C6", "Sliver of Hope HP", SotcLocationCategory.GRID_LOCATION),
         SotcLocationData("C6 - Lizard - North East", "Sliver of Hope HP", SotcLocationCategory.LIZARD),
+        SotcLocationData("C6 - Fruit - North West 1", "Sliver of Hope HP", SotcLocationCategory.FRUIT),
+        SotcLocationData("C6 - Fruit - North West 2", "Sliver of Hope HP", SotcLocationCategory.FRUIT),
     ],
     "Grid D6": [
         SotcLocationData("Map Grid D6", "Sliver of Hope HP", SotcLocationCategory.GRID_LOCATION),
@@ -332,9 +327,6 @@ location_tables = {
     ],
     "Grid E6": [
         SotcLocationData("Map Grid E6", "Sliver of Hope HP", SotcLocationCategory.GRID_LOCATION),
-        SotcLocationData("E6 - Lizard - Center", "Sliver of Hope HP", SotcLocationCategory.LIZARD),
-        SotcLocationData("E6 - Lizard - South East", "Sliver of Hope HP", SotcLocationCategory.LIZARD),
-        SotcLocationData("E6 - Lizard - North West", "Sliver of Hope HP", SotcLocationCategory.LIZARD),
     ],
     "Grid F6": [
         SotcLocationData("Map Grid F6", "Sliver of Hope HP", SotcLocationCategory.GRID_LOCATION),
@@ -380,7 +372,6 @@ location_tables = {
         SotcLocationData("F7 - Lizard - North", "Sliver of Hope HP", SotcLocationCategory.LIZARD),
         SotcLocationData("F7 - Lizard - North East", "Sliver of Hope HP", SotcLocationCategory.LIZARD),
         SotcLocationData("F7 - Lizard - South West", "Sliver of Hope HP", SotcLocationCategory.LIZARD),
-        SotcLocationData("F7 - Lizard - West", "Sliver of Hope HP", SotcLocationCategory.LIZARD),
         SotcLocationData("F7 - Lizard - North West", "Sliver of Hope HP", SotcLocationCategory.LIZARD),
     ],
     "Grid G7": [
@@ -389,7 +380,6 @@ location_tables = {
         SotcLocationData("G7 - Lizard - North", "Sliver of Hope HP", SotcLocationCategory.LIZARD),
         SotcLocationData("G7 - Lizard - North East", "Sliver of Hope HP", SotcLocationCategory.LIZARD),
         SotcLocationData("G7 - Lizard - South East", "Sliver of Hope HP", SotcLocationCategory.LIZARD),
-        SotcLocationData("G7 - Lizard - South West", "Sliver of Hope HP", SotcLocationCategory.LIZARD),
         SotcLocationData("G7 - Lizard - North West", "Sliver of Hope HP", SotcLocationCategory.LIZARD),
     ],
     "Grid H7": [

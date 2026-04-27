@@ -9,6 +9,11 @@ class GoalOptions:
     SOUL_SHARD_SEARCH = 3
 
 
+class ColossiSpawnOptions:
+    RECOLLECTION = 1
+    TIME_TRIAL = 2
+
+
 class GuaranteedItemsOption(ItemDict):
     """Guarantees that the specified items will be in the item pool"""
 
@@ -37,6 +42,19 @@ class ColossiQuantity(Range):
     range_start = 0
     range_end = 15
     default = 15
+
+
+class ColossiSpawnChoice(Choice):
+    """
+    Where you want to deal with the colossi.
+    Recollection - You interact with their corpse in the overworld to start the fight
+    Time Trial - You interact with their statues to start the fight.
+    """
+
+    display_name = "Colossi Spawn Choice"
+    default = ColossiSpawnOptions.RECOLLECTION
+    option_recollection = ColossiSpawnOptions.RECOLLECTION
+    option_time_trial = ColossiSpawnOptions.TIME_TRIAL
 
 
 class LizardQuantity(Range):
@@ -197,6 +215,7 @@ class DeathLinkToggle(Toggle):
 class SotcOption(PerGameCommonOptions):
     goal: GoalOption
     colossi_quantity: ColossiQuantity
+    colossi_spawn_choice: ColossiSpawnChoice
     soul_shard_quantity: SoulShardQuantity
     lizard_quantity: LizardQuantity
     fruitsanity: FruitSanityToggle

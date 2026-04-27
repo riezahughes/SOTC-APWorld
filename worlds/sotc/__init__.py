@@ -561,6 +561,7 @@ class SotcWorld(World):
             "options": {
                 "goal": self.options.goal.value,
                 "colossi_quantity": self.options.colossi_quantity.value,
+                "colossi_spawn_choice": self.options.colossi_spawn_choice.value,
                 "soul_shard_quantity": self.options.soul_shard_quantity.value,
                 "lizard_quantity": self.options.lizard_quantity.value,
                 "fruitsanity": self.options.fruitsanity.value,

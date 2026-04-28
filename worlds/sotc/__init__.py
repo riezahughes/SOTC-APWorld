@@ -34,7 +34,7 @@ from .Options import (
     ColossiCheckChoiceOptions,
 )
 
-from .Rules import set_boss_progression
+from .Rules import set_boss_progression, boss_kill_to_access_sigil
 
 from .VictoryConditions import kill_all_colossi, collect_all_shards, hunt_all_lizards
 
@@ -461,6 +461,13 @@ class SotcWorld(World):
 
                     if self.options.colossi_check_choice.value == ColossiCheckChoiceOptions.PROGRESSIVE:
                         new_location.progress_type = LocationProgressType.PRIORITY
+                        access_sigil = boss_kill_to_access_sigil.get(location.name)
+                        if access_sigil:
+                            new_location.item_rule = lambda item, s=access_sigil: not (
+                                isinstance(item, SotcItem)
+                                and item.category == SotcItemCategory.BOSS_SIGIL
+                                and item.name == s
+                            )
                     elif self.options.colossi_check_choice.value == ColossiCheckChoiceOptions.MULTI:
                         for reward_num in range(1, self.options.colossi_check_multi_quantity.value + 1):
                             reward_loc = SotcLocation(

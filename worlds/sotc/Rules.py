@@ -2,6 +2,27 @@ from worlds.generic.Rules import set_rule, add_rule
 from rule_builder.rules import Has, HasAll
 from BaseClasses import CollectionState, Iterable
 
+# Maps each boss kill location to the sigil required to enter that boss region.
+# Used to prevent a boss kill location from rewarding the sigil needed to access it.
+boss_kill_to_access_sigil = {
+    "Eel Kill - Col. 7": "Sigil of the First Awakening",
+    "Leo Kill - Col. 11": "Sigil of Burdened Earth",
+    "Minotaur C Kill - Col. 15": "Sigil of the Fallen Oath",
+    "Cerberus Kill - Col. 14": "Sigil of Veiled Fear",
+    "Knight Kill - Col. 3": "Sigil of the Skybound Silence",
+    "Poseidon Kill - Col. 12": "Sigil of the Hollow Shrine",
+    "Kame Kill - Col. 9": "Sigil of the Sunken Pulse",
+    "Mammoth Kill - Col. 2": "Sigil of the Watching Walls",
+    "Narga Kill - Col. 10": "Sigil of the Sealed Core",
+    "Bird Kill - Col. 5": "Sigil of the Devouring Wind",
+    "Mintaur A Kill - Col. 1": "Sigil of the Broken Courage",
+    "Kirin Kill - Col. 4": "Sigil of the Drowned Throne",
+    "Minotaur B Kill - Col. 6": "Sigil of Endless Horizon",
+    "Snake Kill - Col. 13": "Sigil of Ruined Pride",
+    "Yamori B Kill - Col. 8": "Sigil of the Bound Colossus",
+    "Evis Kill - Col. 16": None,
+}
+
 
 def set_boss_progression(self):
     boss_sigil_map = {

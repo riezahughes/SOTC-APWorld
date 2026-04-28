@@ -93,8 +93,8 @@ class LizardQuantity(Range):
 
     display_name = "Lizard Quantity in locations"
     range_start = 0
-    range_end = 74
-    default = 70
+    range_end = 64
+    default = 64
 
 
 class SoulShardQuantity(Range):

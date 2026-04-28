@@ -123,6 +123,13 @@ class SotcLocation(Location):
                     print(f"{current_region_base_id + j}: {location_data.name}")
                     output[location_data.name] = current_region_base_id + j
 
+        # Pre-register all possible Boss Reward check IDs (max ColossiCheckMultiQuanitity.range_end = 20)
+        _boss_reward_id_base = 97000000
+        _boss_reward_max = 20
+        for i, boss_name in enumerate(_boss_kill_base_names):
+            for reward_num in range(1, _boss_reward_max + 1):
+                output[f"{boss_name} - Reward {reward_num}"] = _boss_reward_id_base + i * _boss_reward_max + (reward_num - 1)
+
         # Pre-register all possible Climbing Distance check IDs (max range 5000m, min breakpoint 1m)
         _climb_id_base = 98000000
         for n in range(1, 5001):
@@ -142,6 +149,25 @@ class SotcLocation(Location):
         self.locked = True
         item.location = self
 
+
+_boss_kill_base_names = [
+    "Eel Kill - Col. 7",
+    "Leo Kill - Col. 11",
+    "Minotaur C Kill - Col. 15",
+    "Cerberus Kill - Col. 14",
+    "Knight Kill - Col. 3",
+    "Poseidon Kill - Col. 12",
+    "Kame Kill - Col. 9",
+    "Mammoth Kill - Col. 2",
+    "Narga Kill - Col. 10",
+    "Bird Kill - Col. 5",
+    "Mintaur A Kill - Col. 1",
+    "Kirin Kill - Col. 4",
+    "Minotaur B Kill - Col. 6",
+    "Snake Kill - Col. 13",
+    "Yamori B Kill - Col. 8",
+    "Evis Kill - Col. 16",
+]
 
 location_tables = {
     "Grid F0": [

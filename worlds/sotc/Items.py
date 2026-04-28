@@ -12,9 +12,10 @@ class SotcItemCategory(IntEnum):
     BOSS_SIGIL = 4
     SOUL_SHARD = 5
     LIZARD_TAIL = 6
-    EQUIPMENT = 7
-    PASSIVE_ABILITY = 8
-    TRAP = 9
+    IDOL_SHARD = 7
+    EQUIPMENT = 8
+    PASSIVE_ABILITY = 9
+    TRAP = 10
 
 
 class SotcItemData(NamedTuple):
@@ -115,6 +116,7 @@ items: List[SotcItemData] = [
         "Trap: Tired",
         SotcItemCategory.TRAP,
     ),
+    SotcItemData("Idol Shard", SotcItemCategory.IDOL_SHARD),
 ]
 
 # Convert raw list of tuples into MedievilItemData NamedTuple instances

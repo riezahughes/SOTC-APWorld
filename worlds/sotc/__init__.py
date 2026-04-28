@@ -1,13 +1,20 @@
 from typing import Dict, Set, List
 
-from BaseClasses import MultiWorld, Region, Item, Entrance, Tutorial, ItemClassification, CollectionState
+from BaseClasses import MultiWorld, Region, Item, Entrance, Tutorial, ItemClassification, CollectionState, LocationProgressType
 from Options import Toggle, OptionError
 
 from worlds.AutoWorld import World, WebWorld
 from worlds.generic.Rules import set_rule, add_rule
 
 from .Items import SotcItem, SotcItemCategory, item_dictionary, key_item_names, item_descriptions, BuildItemPool
-from .Locations import SotcLocation, SotcLocationCategory, SotcLocationData, location_tables, location_dictionary, create_traversal_locations
+from .Locations import (
+    SotcLocation,
+    SotcLocationCategory,
+    SotcLocationData,
+    location_tables,
+    location_dictionary,
+    create_traversal_locations,
+)
 from .Options import (
     SotcOption,
     GoalOptions,
@@ -23,6 +30,8 @@ from .Options import (
     AgroSanityRange,
     AgroSanityBreakPoints,
     GuaranteedItemsOption,
+    ColossiCheckChoice,
+    ColossiCheckChoiceOptions,
 )
 
 from .Rules import set_boss_progression
@@ -441,8 +450,34 @@ class SotcWorld(World):
                     if isinstance(event_item, SotcItem):
                         new_location.place_locked_item(event_item)
                 new_region.locations.append(new_location)
+
+                if location.category == SotcLocationCategory.BOSS_KILL:
+                    idol_loc = SotcLocation(
+                        self.player, f"{location.name} - Idol Shard", SotcLocationCategory.BOSS_KILL, "Idol Shard", None, new_region
+                    )
+                    idol_item = Item("Idol Shard", ItemClassification.progression, None, self.player)
+                    idol_loc.place_locked_item(idol_item)
+                    new_region.locations.append(idol_loc)
+
+                    if self.options.colossi_check_choice.value == ColossiCheckChoiceOptions.PROGRESSIVE:
+                        new_location.progress_type = LocationProgressType.PRIORITY
+                    elif self.options.colossi_check_choice.value == ColossiCheckChoiceOptions.MULTI:
+                        for reward_num in range(1, self.options.colossi_check_multi_quantity.value + 1):
+                            reward_loc = SotcLocation(
+                                self.player,
+                                f"{location.name} - Reward {reward_num}",
+                                SotcLocationCategory.BOSS_KILL,
+                                location.default_item,
+                                self.location_name_to_id[f"{location.name} - Reward {reward_num}"],
+                                new_region,
+                            )
+                            new_region.locations.append(reward_loc)
+
+            # This is an event location setup for lizard tails.
             if location.category == SotcLocationCategory.LIZARD and self.options.goal == GoalOptions.HUNT_ALL_LIZARDS:
-                event_loc = SotcLocation(self.player, f"{location.name} - Tail", SotcLocationCategory.LIZARD, "Lizard Tail", None, new_region)
+                event_loc = SotcLocation(
+                    self.player, f"{location.name} - Tail", SotcLocationCategory.LIZARD, "Lizard Tail", None, new_region
+                )
                 event_item = Item("Lizard Tail", ItemClassification.progression, None, self.player)
                 event_loc.place_locked_item(event_item)
                 new_region.locations.append(event_loc)
@@ -561,7 +596,9 @@ class SotcWorld(World):
             "options": {
                 "goal": self.options.goal.value,
                 "colossi_quantity": self.options.colossi_quantity.value,
+                "colossi_check_choice": self.options.colossi_check_choice.value,
                 "colossi_spawn_choice": self.options.colossi_spawn_choice.value,
+                "colossi_check_multi_quantity": self.options.colossi_check_multi_quantity.value,
                 "soul_shard_quantity": self.options.soul_shard_quantity.value,
                 "lizard_quantity": self.options.lizard_quantity.value,
                 "fruitsanity": self.options.fruitsanity.value,

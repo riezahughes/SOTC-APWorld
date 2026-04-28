@@ -14,6 +14,11 @@ class ColossiSpawnOptions:
     TIME_TRIAL = 2
 
 
+class ColossiCheckChoiceOptions:
+    PROGRESSIVE = 1
+    MULTI = 2
+
+
 class GuaranteedItemsOption(ItemDict):
     """Guarantees that the specified items will be in the item pool"""
 
@@ -55,6 +60,30 @@ class ColossiSpawnChoice(Choice):
     default = ColossiSpawnOptions.RECOLLECTION
     option_recollection = ColossiSpawnOptions.RECOLLECTION
     option_time_trial = ColossiSpawnOptions.TIME_TRIAL
+
+
+class ColossiCheckChoice(Choice):
+    """
+    Pick how you want the checks to function for Colossi.
+    Progressive - Force each colossus to have a progression item in it's check.
+    Multi - Colossi can have multiple checks fire upon their defeat, but they won't be guaranteed to be progression.
+    """
+
+    display_name = "Colossi Check Choice"
+    default = ColossiCheckChoiceOptions.PROGRESSIVE
+    option_progressive = ColossiCheckChoiceOptions.PROGRESSIVE
+    option_multi = ColossiCheckChoiceOptions.MULTI
+
+
+class ColossiCheckMultiQuanitity(Range):
+    """
+    If you choose "multi" for Colossi Check Choice, set how many checks you want to fire per colossus.
+    """
+
+    display_name = "Colossi Check Multi Quantity"
+    default = 5
+    range_start = 1
+    range_end = 20
 
 
 class LizardQuantity(Range):
@@ -216,6 +245,8 @@ class SotcOption(PerGameCommonOptions):
     goal: GoalOption
     colossi_quantity: ColossiQuantity
     colossi_spawn_choice: ColossiSpawnChoice
+    colossi_check_choice: ColossiCheckChoice
+    colossi_check_multi_quantity: ColossiCheckMultiQuanitity
     soul_shard_quantity: SoulShardQuantity
     lizard_quantity: LizardQuantity
     fruitsanity: FruitSanityToggle

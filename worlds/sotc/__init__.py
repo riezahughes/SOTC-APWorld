@@ -506,18 +506,9 @@ class SotcWorld(World):
                     new_location.place_locked_item(self.create_item("Lizard Tail"))
 
                 if location.category == SotcLocationCategory.BOSS_KILL:
-                    idol_shard_loc_name = f"{location.name} - Idol Shard"
-                    idol_location = SotcLocation(
-                        self.player,
-                        idol_shard_loc_name,
-                        SotcLocationCategory.BOSS_KILL,
-                        "Idol Shard",
-                        self.location_name_to_id[idol_shard_loc_name],
-                        new_region,
-                    )
-                    idol_item = self.create_item("Idol Shard")
-                    idol_location.place_locked_item(idol_item)
-                    new_region.locations.append(idol_location)
+                    if self.options.goal.value == GoalOptions.KILL_ALL_COLOSSI:
+                        idol_item = self.create_item("Idol Shard")
+                        new_location.place_locked_item(idol_item)
 
                     if self.options.colossi_check_choice.value == ColossiCheckChoiceOptions.PROGRESSIVE:
                         new_location.progress_type = LocationProgressType.PRIORITY

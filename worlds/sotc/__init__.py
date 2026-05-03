@@ -83,10 +83,7 @@ class SotcWorld(World):
         self.chosen_sigils = []
 
     def generate_early(self):
-        if (
-            self.options.goal.value == GoalOptions.HUNT_ALL_LIZARDS
-            and self.options.lizardsanity.value == LizardSanityToggle.option_false
-        ):
+        if self.options.goal.value == GoalOptions.HUNT_ALL_LIZARDS and self.options.lizardsanity.value == LizardSanityToggle.option_false:
             raise OptionError("LizardSanity must be enabled to use the Hunt All Lizards goal.")
 
         self.enabled_location_categories.add(SotcLocationCategory.FILLER)
@@ -99,11 +96,8 @@ class SotcWorld(World):
         self.enabled_location_categories.add(SotcLocationCategory.LIZARD)
         self.enabled_location_categories.add(SotcLocationCategory.SHRINE)
 
-        all_sigils = [name for name, data in item_dictionary(self.options).items()
-                      if data.category == SotcItemCategory.BOSS_SIGIL]
-        self.chosen_sigils = self.multiworld.random.sample(
-            all_sigils, min(self.options.colossi_quantity.value, len(all_sigils))
-        )
+        all_sigils = [name for name, data in item_dictionary(self.options).items() if data.category == SotcItemCategory.BOSS_SIGIL]
+        self.chosen_sigils = self.multiworld.random.sample(all_sigils, min(self.options.colossi_quantity.value, len(all_sigils)))
 
     def create_regions(self):
         # Create Regions
@@ -177,24 +171,28 @@ class SotcWorld(World):
             "Grid E8",
             "Grid F8",
             "Grid G8",
-        ] + [r for r in [
-            "Boss D1",
-            "Boss F1",
-            "Boss G1",
-            "Boss C2",
-            "Boss E2",
-            "Boss G2",
-            "Boss D3",
-            "Boss F3",
-            "Boss B4",
-            "Boss H4",
-            "Boss F5",
-            "Boss G5",
-            "Boss D6",
-            "Boss E6",
-            "Boss G6",
-            "Boss F8",
-        ] if r in active_boss_regions]
+        ] + [
+            r
+            for r in [
+                "Boss D1",
+                "Boss F1",
+                "Boss G1",
+                "Boss C2",
+                "Boss E2",
+                "Boss G2",
+                "Boss D3",
+                "Boss F3",
+                "Boss B4",
+                "Boss H4",
+                "Boss F5",
+                "Boss G5",
+                "Boss D6",
+                "Boss E6",
+                "Boss G6",
+                "Boss F8",
+            ]
+            if r in active_boss_regions
+        ]
 
         regions["Traversal"] = self.create_region("Traversal", create_traversal_locations(self.options))
 
@@ -468,7 +466,7 @@ class SotcWorld(World):
     def create_region(self, region_name, location_table) -> Region:
         new_region = Region(region_name, self.player, self.multiworld)
         for location in location_table:
-            print(region_name, location.name)
+            # print(region_name, location.name)
             skip_regular_location = False
             if self.options.agrosanity.value == AgroSanityToggle.option_false and "Riding Distance" in location.name:
                 continue

@@ -120,7 +120,7 @@ class SotcLocation(Location):
                 for j, location_data in enumerate(location_tables[region_name]):
                     # Assign an ID to each location within the region
                     # The ID for each location in a region will be current_region_base_id + j
-                    print(f"{current_region_base_id + j}: {location_data.name}")
+                    # print(f"{current_region_base_id + j}: {location_data.name}")
                     output[location_data.name] = current_region_base_id + j
 
         # Pre-register one Idol Shard check ID per boss (always locked, always given on kill)
@@ -133,6 +133,7 @@ class SotcLocation(Location):
         _boss_reward_max = 20
         for i, boss_name in enumerate(_boss_kill_base_names):
             for reward_num in range(1, _boss_reward_max + 1):
+                # print(f"{boss_name} : {_boss_reward_id_base + i * _boss_reward_max + (reward_num - 1)}")
                 output[f"{boss_name} - Reward {reward_num}"] = _boss_reward_id_base + i * _boss_reward_max + (reward_num - 1)
 
         # Pre-register all possible Climbing Distance check IDs (max range 5000m, min breakpoint 1m)

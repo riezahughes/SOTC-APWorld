@@ -142,11 +142,7 @@ def BuildItemPool(count: int, self) -> List[str]:
             if item_name in item_dictionary(self.options):
                 item_pool_names.append(item_name)
 
-    # Pick a random subset of sigils based on colossi_count
-    all_sigils = [item.name for item in _all_items if item.category == SotcItemCategory.BOSS_SIGIL]
-    colossi_quantity = self.options.colossi_quantity.value
-    chosen_sigils = self.multiworld.random.sample(all_sigils, min(colossi_quantity, len(all_sigils)))
-    self.chosen_sigils = chosen_sigils
+    chosen_sigils = self.chosen_sigils
 
     # Add Soul Shards based on the soul_shard_quantity option
     soul_shards = ["Soul Shard"] * self.options.soul_shard_quantity.value

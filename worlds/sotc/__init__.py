@@ -80,8 +80,15 @@ class SotcWorld(World):
         self.locked_locations = []
         self.main_path_locations = []
         self.enabled_location_categories = set()
+        self.chosen_sigils = []
 
     def generate_early(self):
+        if (
+            self.options.goal.value == GoalOptions.HUNT_ALL_LIZARDS
+            and self.options.lizardsanity.value == LizardSanityToggle.option_false
+        ):
+            raise OptionError("LizardSanity must be enabled to use the Hunt All Lizards goal.")
+
         self.enabled_location_categories.add(SotcLocationCategory.FILLER)
         self.enabled_location_categories.add(SotcLocationCategory.PROGRESSION)
         self.enabled_location_categories.add(SotcLocationCategory.BOSS_KILL)
@@ -92,9 +99,36 @@ class SotcWorld(World):
         self.enabled_location_categories.add(SotcLocationCategory.LIZARD)
         self.enabled_location_categories.add(SotcLocationCategory.SHRINE)
 
+        all_sigils = [name for name, data in item_dictionary(self.options).items()
+                      if data.category == SotcItemCategory.BOSS_SIGIL]
+        self.chosen_sigils = self.multiworld.random.sample(
+            all_sigils, min(self.options.colossi_quantity.value, len(all_sigils))
+        )
+
     def create_regions(self):
         # Create Regions
         regions: Dict[str, Region] = {}
+
+        _sigil_to_boss_region = {
+            "Sigil of the First Awakening": "Boss D1",
+            "Sigil of Burdened Earth": "Boss F1",
+            "Sigil of the Fallen Oath": "Boss G1",
+            "Sigil of Veiled Fear": "Boss C2",
+            "Sigil of the Skybound Silence": "Boss E2",
+            "Sigil of the Hollow Shrine": "Boss G2",
+            "Sigil of the Sunken Pulse": "Boss D3",
+            "Sigil of the Watching Walls": "Boss F3",
+            "Sigil of the Sealed Core": "Boss B4",
+            "Sigil of the Devouring Wind": "Boss H4",
+            "Sigil of the Broken Courage": "Boss F5",
+            "Sigil of the Drowned Throne": "Boss G5",
+            "Sigil of Endless Horizon": "Boss D6",
+            "Sigil of Ruined Pride": "Boss E6",
+            "Sigil of the Bound Colossus": "Boss G6",
+        }
+        active_boss_regions = {_sigil_to_boss_region[s] for s in self.chosen_sigils if s in _sigil_to_boss_region}
+        if self.options.colossi_quantity.value > 0:
+            active_boss_regions.add("Boss F8")
 
         list_of_regions = [
             "Grid F0",
@@ -143,6 +177,7 @@ class SotcWorld(World):
             "Grid E8",
             "Grid F8",
             "Grid G8",
+        ] + [r for r in [
             "Boss D1",
             "Boss F1",
             "Boss G1",
@@ -159,7 +194,7 @@ class SotcWorld(World):
             "Boss E6",
             "Boss G6",
             "Boss F8",
-        ]
+        ] if r in active_boss_regions]
 
         regions["Traversal"] = self.create_region("Traversal", create_traversal_locations(self.options))
 
@@ -185,7 +220,8 @@ class SotcWorld(World):
         create_connection("Grid D1", "Grid C1")
         create_connection("Grid D1", "Grid D2")
         create_connection("Grid D1", "Grid E1")
-        create_connection("Grid D1", "Boss D1")
+        if "Boss D1" in active_boss_regions:
+            create_connection("Grid D1", "Boss D1")
 
         # E1 Connections
         create_connection("Grid E1", "Grid D1")
@@ -196,15 +232,18 @@ class SotcWorld(World):
         create_connection("Grid F1", "Grid E1")
         create_connection("Grid F1", "Grid F2")
         create_connection("Grid F1", "Grid G1")
-        create_connection("Grid F1", "Boss F1")
+        if "Boss F1" in active_boss_regions:
+            create_connection("Grid F1", "Boss F1")
 
         # G1 Connections
         create_connection("Grid G1", "Grid F1")
-        create_connection("Grid G1", "Boss G1")
+        if "Boss G1" in active_boss_regions:
+            create_connection("Grid G1", "Boss G1")
 
         # C2 Connections
         create_connection("Grid C2", "Grid C1")
-        create_connection("Grid C2", "Boss C2")
+        if "Boss C2" in active_boss_regions:
+            create_connection("Grid C2", "Boss C2")
 
         # D2 Connections
         create_connection("Grid D2", "Grid C1")
@@ -216,7 +255,8 @@ class SotcWorld(World):
         # E2 Connections
         create_connection("Grid E2", "Grid D2")
         create_connection("Grid E2", "Grid E3")
-        create_connection("Grid E2", "Boss E2")
+        if "Boss E2" in active_boss_regions:
+            create_connection("Grid E2", "Boss E2")
 
         # F2 Connections
         create_connection("Grid F2", "Grid F1")
@@ -224,7 +264,8 @@ class SotcWorld(World):
 
         # G2 Connections
         create_connection("Grid G2", "Grid G3")
-        create_connection("Grid G2", "Boss G2")
+        if "Boss G2" in active_boss_regions:
+            create_connection("Grid G2", "Boss G2")
 
         # B3 Connections
         create_connection("Grid B3", "Grid B4")
@@ -240,7 +281,8 @@ class SotcWorld(World):
         create_connection("Grid D3", "Grid C3")
         create_connection("Grid D3", "Grid E3")
         create_connection("Grid D3", "Grid D4")
-        create_connection("Grid D3", "Boss D3")
+        if "Boss D3" in active_boss_regions:
+            create_connection("Grid D3", "Boss D3")
 
         # E3 Connections
         create_connection("Grid E3", "Grid D2")
@@ -253,7 +295,8 @@ class SotcWorld(World):
         create_connection("Grid F3", "Grid F2")
         create_connection("Grid F3", "Grid F4")
         create_connection("Grid F3", "Grid G3")
-        create_connection("Grid F3", "Boss F3")
+        if "Boss F3" in active_boss_regions:
+            create_connection("Grid F3", "Boss F3")
 
         # G3 Connections
         create_connection("Grid G3", "Grid G2")
@@ -268,7 +311,8 @@ class SotcWorld(World):
         create_connection("Grid B4", "Grid C4")
         create_connection("Grid B4", "Grid A4")
         create_connection("Grid B4", "Grid B3")
-        create_connection("Grid B4", "Boss B4")
+        if "Boss B4" in active_boss_regions:
+            create_connection("Grid B4", "Boss B4")
 
         # C4 Connection
         create_connection("Grid C4", "Grid B4")
@@ -300,7 +344,8 @@ class SotcWorld(World):
 
         # H4 Connection
         create_connection("Grid H4", "Grid G4")
-        create_connection("Grid H4", "Boss H4")
+        if "Boss H4" in active_boss_regions:
+            create_connection("Grid H4", "Boss H4")
 
         # A5 Connections
         create_connection("Grid A5", "Grid A4")
@@ -330,13 +375,15 @@ class SotcWorld(World):
         create_connection("Grid F5", "Grid G5")
         create_connection("Grid F5", "Grid F4")
         create_connection("Grid F5", "Grid F6")
-        create_connection("Grid F5", "Boss F5")
+        if "Boss F5" in active_boss_regions:
+            create_connection("Grid F5", "Boss F5")
 
         # G5 Connections
         create_connection("Grid G5", "Grid F5")
         create_connection("Grid G5", "Grid G6")
         create_connection("Grid G5", "Grid G4")
-        create_connection("Grid G5", "Boss G5")
+        if "Boss G5" in active_boss_regions:
+            create_connection("Grid G5", "Boss G5")
 
         # C6 Connections
         create_connection("Grid C6", "Grid C5")
@@ -348,14 +395,16 @@ class SotcWorld(World):
         create_connection("Grid D6", "Grid D5")
         create_connection("Grid D6", "Grid D7")
         create_connection("Grid D6", "Grid E6")
-        create_connection("Grid D6", "Boss D6")
+        if "Boss D6" in active_boss_regions:
+            create_connection("Grid D6", "Boss D6")
 
         # E6 Connections
         create_connection("Grid E6", "Grid E5")
         create_connection("Grid E6", "Grid E7")
         create_connection("Grid E6", "Grid D6")
         create_connection("Grid E6", "Grid F6")
-        create_connection("Grid E6", "Boss E6")
+        if "Boss E6" in active_boss_regions:
+            create_connection("Grid E6", "Boss E6")
 
         # F6 Connections
         create_connection("Grid F6", "Grid F5")
@@ -368,7 +417,8 @@ class SotcWorld(World):
         create_connection("Grid G6", "Grid G7")
         create_connection("Grid G6", "Grid F6")
         create_connection("Grid G6", "Grid H6")
-        create_connection("Grid G6", "Boss G6")
+        if "Boss G6" in active_boss_regions:
+            create_connection("Grid G6", "Boss G6")
 
         # H6 Connections
         create_connection("Grid H6", "Grid H7")
@@ -405,9 +455,11 @@ class SotcWorld(World):
 
         # F8 connections
         create_connection("Grid F8", "Grid F7")
-        create_connection("Grid F8", "Boss F8")
-
-        create_connection("Boss F8", "Game Clear")
+        if "Boss F8" in active_boss_regions:
+            create_connection("Grid F8", "Boss F8")
+            create_connection("Boss F8", "Game Clear")
+        else:
+            create_connection("Grid F8", "Game Clear")
 
         # G8 Connections
         create_connection("Grid G8", "Grid G7")
@@ -416,6 +468,7 @@ class SotcWorld(World):
     def create_region(self, region_name, location_table) -> Region:
         new_region = Region(region_name, self.player, self.multiworld)
         for location in location_table:
+            print(region_name, location.name)
             skip_regular_location = False
             if self.options.agrosanity.value == AgroSanityToggle.option_false and "Riding Distance" in location.name:
                 continue
@@ -451,22 +504,29 @@ class SotcWorld(World):
                         new_location.place_locked_item(event_item)
                 new_region.locations.append(new_location)
 
+                if location.category == SotcLocationCategory.LIZARD and self.options.goal.value == GoalOptions.HUNT_ALL_LIZARDS:
+                    new_location.place_locked_item(self.create_item("Lizard Tail"))
+
                 if location.category == SotcLocationCategory.BOSS_KILL:
-                    idol_loc = SotcLocation(
-                        self.player, f"{location.name} - Idol Shard", SotcLocationCategory.BOSS_KILL, "Idol Shard", None, new_region
+                    idol_shard_loc_name = f"{location.name} - Idol Shard"
+                    idol_location = SotcLocation(
+                        self.player,
+                        idol_shard_loc_name,
+                        SotcLocationCategory.BOSS_KILL,
+                        "Idol Shard",
+                        self.location_name_to_id[idol_shard_loc_name],
+                        new_region,
                     )
-                    idol_item = Item("Idol Shard", ItemClassification.progression, None, self.player)
-                    idol_loc.place_locked_item(idol_item)
-                    new_region.locations.append(idol_loc)
+                    idol_item = self.create_item("Idol Shard")
+                    idol_location.place_locked_item(idol_item)
+                    new_region.locations.append(idol_location)
 
                     if self.options.colossi_check_choice.value == ColossiCheckChoiceOptions.PROGRESSIVE:
                         new_location.progress_type = LocationProgressType.PRIORITY
                         access_sigil = boss_kill_to_access_sigil.get(location.name)
                         if access_sigil:
-                            new_location.item_rule = lambda item, s=access_sigil: not (
-                                isinstance(item, SotcItem)
-                                and item.category == SotcItemCategory.BOSS_SIGIL
-                                and item.name == s
+                            new_location.item_rule = lambda item, s=access_sigil: (
+                                not (isinstance(item, SotcItem) and item.category == SotcItemCategory.BOSS_SIGIL and item.name == s)
                             )
                     elif self.options.colossi_check_choice.value == ColossiCheckChoiceOptions.MULTI:
                         for reward_num in range(1, self.options.colossi_check_multi_quantity.value + 1):
@@ -479,15 +539,6 @@ class SotcWorld(World):
                                 new_region,
                             )
                             new_region.locations.append(reward_loc)
-
-            # This is an event location setup for lizard tails.
-            if location.category == SotcLocationCategory.LIZARD and self.options.goal == GoalOptions.HUNT_ALL_LIZARDS:
-                event_loc = SotcLocation(
-                    self.player, f"{location.name} - Tail", SotcLocationCategory.LIZARD, "Lizard Tail", None, new_region
-                )
-                event_item = Item("Lizard Tail", ItemClassification.progression, None, self.player)
-                event_loc.place_locked_item(event_item)
-                new_region.locations.append(event_loc)
 
         self.multiworld.regions.append(new_region)
         return new_region
@@ -536,6 +587,8 @@ class SotcWorld(World):
             or item_data.category == SotcItemCategory.HP_UP
             or item_data.category == SotcItemCategory.BOSS_SIGIL
             or item_data.category == SotcItemCategory.SOUL_SHARD
+            or item_data.category == SotcItemCategory.IDOL_SHARD
+            or item_data.category == SotcItemCategory.LIZARD_TAIL
         ):
             item_classification = ItemClassification.progression
         elif item_data.category == SotcItemCategory.PASSIVE_ABILITY or item_data.category == SotcItemCategory.EQUIPMENT:

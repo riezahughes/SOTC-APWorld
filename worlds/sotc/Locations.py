@@ -123,6 +123,11 @@ class SotcLocation(Location):
                     print(f"{current_region_base_id + j}: {location_data.name}")
                     output[location_data.name] = current_region_base_id + j
 
+        # Pre-register one Idol Shard check ID per boss (always locked, always given on kill)
+        _idol_shard_id_base = 96000000
+        for i, boss_name in enumerate(_boss_kill_base_names):
+            output[f"{boss_name} - Idol Shard"] = _idol_shard_id_base + i
+
         # Pre-register all possible Boss Reward check IDs (max ColossiCheckMultiQuanitity.range_end = 20)
         _boss_reward_id_base = 97000000
         _boss_reward_max = 20

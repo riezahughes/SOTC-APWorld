@@ -27,7 +27,7 @@ class GuaranteedItemsOption(ItemDict):
 
 class GoalOption(Choice):
     """Lets the user choose the completion goal
-    Kill all Collosi - Beat every fight in the game
+    Kill all Collosi - Beat every Colossi fight you've set in ColossiQuantity and then kill the final boss behind to door at F8
     Hunt All Lizards - Get Every Stamina Drop from the lizards (May Require LizardSanity? Not sure yet.)
     Soul Shard Search - Add a unique item to the pool to find and collect from locations"""
 
@@ -40,7 +40,9 @@ class GoalOption(Choice):
 
 class ColossiQuantity(Range):
     """
-    Number of Collosi you need to kill to open the goal. Bosses will be chosen at random based on how many you choose here
+    Number of Colossi included in your game. Bosses are chosen at random from the available pool.
+    For the Kill All Colossi goal, all chosen Colossi must be defeated to unlock the path to the final boss.
+    For other goals, chosen Colossi are available as side content but are not required for completion.
     """
 
     display_name = "Colossi in Game"
@@ -53,7 +55,7 @@ class ColossiSpawnChoice(Choice):
     """
     Where you want to deal with the colossi.
     Recollection - You interact with their corpse in the overworld to start the fight
-    Time Trial - You interact with their statues to start the fight.
+    Time Trial - You interact with their statues to start the fight. (do not use yet)
     """
 
     display_name = "Colossi Spawn Choice"
